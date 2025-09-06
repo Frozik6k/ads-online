@@ -1,22 +1,20 @@
 package ru.skypro.homework.dto.ads;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.math.BigDecimal;
 
-@Getter
-@Setter
-@NoArgsConstructor
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
 @AllArgsConstructor
-public class Ad {
+public class AdDto {
     private long author;
 
     private String image;
 
     private long pk;
 
-    private int price;
+    private BigDecimal price;
 
     private String title;
 }

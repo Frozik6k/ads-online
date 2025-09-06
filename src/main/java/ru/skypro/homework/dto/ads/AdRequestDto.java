@@ -1,15 +1,11 @@
 package ru.skypro.homework.dto.ads;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-public class AdRequest {
+public class AdRequestDto {
     private String title;
     
     private int price;
