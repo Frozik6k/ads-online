@@ -14,13 +14,13 @@ import java.util.ArrayList;
 public class CommentsController {
 
     @GetMapping("/{id}/comments")
-    public CommentsDto getComments(@RequestParam("id") Integer idAd) {
+    public CommentsDto getComments(@RequestParam("id") Long idAd) {
         // TODO получение данных с сервиса
         return new CommentsDto(0, new ArrayList<>());
     }
 
     @PostMapping("/{id}/comments")
-    public CommentDto addComment(@RequestParam("id") Integer idAd) {
+    public CommentDto addComment(@RequestParam("id") Long idAd) {
         // TODO отправить в сервис комментарий для записи
         return new CommentDto(0,
                 "путь к аватарке",
@@ -31,7 +31,7 @@ public class CommentsController {
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")
-    public ResponseEntity deleteComments(@RequestParam("adId") Integer idAd, @RequestParam("commentId") Integer idComment) {
+    public ResponseEntity deleteComments(@RequestParam("adId") Long idAd, @RequestParam("commentId") Long idComment) {
         // TODO вызвать метод сервиса для удаления комментария
         // Response:
         // 200	OK
@@ -42,7 +42,7 @@ public class CommentsController {
     }
 
     @PatchMapping("/{adId}/comments/{commentId}")
-    public CommentDto updateComment(@RequestParam("adId") Integer idAd, @RequestParam("commentId") Integer idComment) {
+    public CommentDto updateComment(@RequestParam("adId") Long idAd, @RequestParam("commentId") Long idComment) {
         // TODO Обновить комментарий через сервис
         return new CommentDto(0,
                 "путь к аватарке",

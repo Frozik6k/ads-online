@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CommentDto {
     @JsonProperty("author")
-    private int idAuthor;
+    private long idAuthor;
     private String authorImage;
     private String authorFirstName;
     private LocalDateTime createAt;
     @JsonProperty("pk")
-    private int idComment;
+    private long idComment;
     private String text;
 }
