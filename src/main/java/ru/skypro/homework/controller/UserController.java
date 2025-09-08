@@ -1,8 +1,7 @@
-package ru.skypro.homework.controller.user;
+package ru.skypro.homework.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.user.NewPassword;
