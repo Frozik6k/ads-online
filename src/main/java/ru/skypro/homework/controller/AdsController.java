@@ -29,40 +29,40 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping("ads")
 @RequiredArgsConstructor
 public class AdsController {
-    
+
     @GetMapping("/")
     public AdsDto getAllAds() {
         //TODO: implement
 
         return new AdsDto(0, List.of(
-            new AdDto(1, "example/image.jpg", 1, new BigDecimal(100), "example title")
+                new AdDto(1, "example/image.jpg", 1, new BigDecimal(100), "example title")
         ));
     }
-    
+
     @PostMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public AdDto createAd(@RequestBody AdRequestDto req, MultipartFile image) {
         //TODO: implement
-        
+
         return new AdDto(1, "example/image.jpg", 1, new BigDecimal(100), "example title");
     }
-    
+
     @GetMapping("/{id}")
     public AdResponseDto getAd(@PathVariable long id) {
         //TODO: implement
         return new AdResponseDto(
-            1, 
-            "null", 
-            "null", 
-            "null", 
-            "null@null.com", 
-            "example/image.jpg", 
-            "null", 
-            new BigDecimal(100), 
-            "null"
+                1,
+                "null",
+                "null",
+                "null",
+                "null@null.com",
+                "example/image.jpg",
+                "null",
+                new BigDecimal(100),
+                "null"
         );
     }
-    
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAd(@PathVariable long id) {
@@ -84,10 +84,10 @@ public class AdsController {
         String userName = user.getUsername();
 
         return new AdsDto(0, List.of(
-            new AdDto(1, "example/image.jpg", 1, new BigDecimal(100), "example title")
+                new AdDto(1, "example/image.jpg", 1, new BigDecimal(100), "example title")
         ));
     }
-    
+
     @PatchMapping("/{id}/image")
     public String updateAdImage(@PathVariable long id, MultipartFile image) {
         //TODO: implement

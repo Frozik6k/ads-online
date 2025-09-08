@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateOrUpdateCommentRequest {
+public class CommentCreateOrUpdateRequest {
     @Size(min = 8, max = 64, message = "Текст комментария")
     private String text;
 }

@@ -3,6 +3,7 @@ package ru.skypro.homework.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.skypro.homework.dto.comments.CommentCreateOrUpdateRequest;
 import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.CommentsDto;
 
@@ -14,13 +15,13 @@ import java.util.ArrayList;
 public class CommentsController {
 
     @GetMapping("/{id}/comments")
-    public CommentsDto getComments(@RequestParam("id") Long idAd) {
+    public CommentsDto getComments(@PathVariable("id") Long idAd) {
         // TODO получение данных с сервиса
         return new CommentsDto(0, new ArrayList<>());
     }
 
     @PostMapping("/{id}/comments")
-    public CommentDto addComment(@RequestParam("id") Long idAd) {
+    public CommentDto addComment(@PathVariable("id") Long idAd) {
         // TODO отправить в сервис комментарий для записи
         return new CommentDto(0,
                 "путь к аватарке",
@@ -31,7 +32,7 @@ public class CommentsController {
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")
-    public ResponseEntity deleteComments(@RequestParam("adId") Long idAd, @RequestParam("commentId") Long idComment) {
+    public ResponseEntity deleteComments(@PathVariable("adId") Long idAd, @PathVariable("commentId") Long idComment) {
         // TODO вызвать метод сервиса для удаления комментария
         // Response:
         // 200	OK
@@ -42,7 +43,7 @@ public class CommentsController {
     }
 
     @PatchMapping("/{adId}/comments/{commentId}")
-    public CommentDto updateComment(@RequestParam("adId") Long idAd, @RequestParam("commentId") Long idComment) {
+    public CommentDto updateComment(@PathVariable("adId") Long idAd, @PathVariable("commentId") Long idComment, @RequestBody CommentCreateOrUpdateRequest request) {
         // TODO Обновить комментарий через сервис
         return new CommentDto(0,
                 "путь к аватарке",

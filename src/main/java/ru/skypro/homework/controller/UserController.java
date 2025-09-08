@@ -13,26 +13,22 @@ import ru.skypro.homework.dto.user.UserDto;
 public class UserController {
 
     @PostMapping("/set_password")
-    public ResponseEntity<Void> setPassword(@RequestBody NewPasswordRequest passwordData){
+    public ResponseEntity<Void> setPassword(@RequestBody NewPasswordRequest passwordData) {
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/me")
-    public UserDto getUser(){
-        UserDto userData = new UserDto();
-        return userData;
+    public UserDto getUser() {
+        return new UserDto();
     }
 
     @PatchMapping("/me")
-    public UpdateUserDto updateUser(@RequestBody UpdateUserDto updateUser){
-
-        UpdateUserDto updatedUser = new UpdateUserDto();
-
-        return updatedUser;
+    public UpdateUserDto updateUser(@RequestBody UpdateUserDto updateUser) {
+        return new UpdateUserDto();
     }
 
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateUserImage(@RequestParam("image")MultipartFile image){
+    public ResponseEntity<?> updateUserImage(@RequestParam("image") MultipartFile image) {
 
         return ResponseEntity.ok().build();
 

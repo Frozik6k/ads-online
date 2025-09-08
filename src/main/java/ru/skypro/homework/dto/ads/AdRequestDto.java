@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class AdRequestDto {
     private String title;
-    
+
     private BigDecimal price;
 
     private String description;
