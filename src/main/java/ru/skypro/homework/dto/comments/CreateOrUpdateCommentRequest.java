@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateOrUpdateCommmentRequest {
+public class CreateOrUpdateCommentRequest {
     @Size(min = 8, max = 64, message = "Текст комментария")
     private String text;
 }
