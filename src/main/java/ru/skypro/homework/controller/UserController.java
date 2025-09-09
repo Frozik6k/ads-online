@@ -4,16 +4,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.user.NewPassword;
-import ru.skypro.homework.dto.user.UpdateUser;
-import ru.skypro.homework.dto.user.User;
+import ru.skypro.homework.dto.user.NewPasswordRequest;
+import ru.skypro.homework.dto.user.UpdateUserDto;
+import ru.skypro.homework.dto.user.UserDto;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     @PostMapping("/set_password")
-    public ResponseEntity<Void> setPassword(@RequestBody NewPassword passwordData){
+    public ResponseEntity<Void> setPassword(@RequestBody NewPasswordRequest passwordData){
 
         return ResponseEntity.ok().build();
 
