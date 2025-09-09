@@ -32,7 +32,7 @@ public class CommentsController {
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")
-    public ResponseEntity deleteComments(@PathVariable("adId") Long idAd, @PathVariable("commentId") Long idComment) {
+    public ResponseEntity deleteComment(@PathVariable("adId") Long idAd, @PathVariable("commentId") Long idComment) {
         // TODO вызвать метод сервиса для удаления комментария
         // Response:
         // 200	OK

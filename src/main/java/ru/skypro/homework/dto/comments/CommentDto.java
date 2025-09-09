@@ -15,7 +15,7 @@ public class CommentDto {
     private long idAuthor;
     private String authorImage;
     private String authorFirstName;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     @JsonProperty("pk")
     private long idComment;
     private String text;
