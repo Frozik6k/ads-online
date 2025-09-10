@@ -637,3 +637,133 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Comment'
+    ExtendedAdDto:
+      type: object
+      properties:
+        pk:
+          type: integer
+          format: int64
+          description: "Первичный ключ объявления"
+          minimum: 1
+        authorFirstName:
+          type: string
+          description: "Имя автора"
+          maxLength: 50
+          minLength: 1
+          pattern: "^[А-Яа-яA-Za-z\\-\\s]+$"
+        authorLastName:
+          type: string
+          description: "Фамилия автора"
+          maxLength: 50
+          minLength: 1
+          pattern: "^[А-Яа-яA-Za-z\\-\\s]+$"
+        description:
+          type: string
+          description: "Описание объявления"
+          minLength: 10
+          maxLength: 1000
+        email:
+          type: string
+          description: "Email автора"
+          format: email
+          minLength: 1
+        image:
+          type: string
+          description: "Ссылка на изображение"
+          minLength: 1
+        phone:
+          type: string
+          description: "Телефон автора"
+          minLength: 7
+          maxLength: 15
+          pattern: "^\\+?[0-9\\-\\s]{7,15}$"
+        price:
+          type: number
+          format: decimal
+          description: "Цена объявления"
+          minimum: 0
+          nullable: false
+        title:
+          type: string
+          description: "Название объявления"
+          minLength: 3
+          maxLength: 100
+      required:
+        - pk
+        - authorFirstName
+        - authorLastName
+        - description
+        - email
+        - image
+        - phone
+        - price
+        - title
+    AdDto:
+      type: object
+      properties:
+        author:
+          type: integer
+          format: int64
+          description: "ID автора объявления"
+          minimum: 1
+        image:
+          type: string
+          description: "Ссылка на изображение"
+          minLength: 1
+        pk:
+          type: integer
+          format: int64
+          description: "Первичный ключ объявления"
+          minimum: 1
+        price:
+          type: number
+          format: decimal
+          description: "Цена объявления"
+          minimum: 0
+          nullable: false
+        title:
+          type: string
+          description: "Название объявления"
+          minLength: 3
+          maxLength: 100
+      required:
+        - author
+        - image
+        - pk
+        - price
+        - title
+    AdRequestDto:
+      type: object
+      properties:
+        price:
+          type: number
+          format: decimal
+          description: "Цена объявления"
+          minimum: 0
+          nullable: false
+        title:
+          type: string
+          description: "Название объявления"
+          minLength: 3
+          maxLength: 100
+        description:
+          type: string
+          description: "Описание объявления"
+          minLength: 10
+          maxLength: 1000
+      required:
+        - price
+        - title
+        - description
+    AdsDto:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: "Количество объявлений"
+          minimum: 0
+        results:
+          type: array
+          description: "Список объявлений"
+          items:
+            $ref: '#/components/schemas/AdDto'

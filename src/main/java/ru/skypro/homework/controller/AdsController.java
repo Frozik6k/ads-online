@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.AdRequestDto;
-import ru.skypro.homework.dto.ads.AdResponseDto;
+import ru.skypro.homework.dto.ads.ExtendedAdDto;
 import ru.skypro.homework.dto.ads.AdsDto;
 
 import java.math.BigDecimal;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
-@RequestMapping("ads")
+@RequestMapping("/ads")
 @RequiredArgsConstructor
 public class AdsController {
     
@@ -48,9 +48,9 @@ public class AdsController {
     }
     
     @GetMapping("/{id}")
-    public AdResponseDto getAd(@PathVariable long id) {
+    public ExtendedAdDto getAd(@PathVariable long id) {
         //TODO: implement
-        return new AdResponseDto(
+        return new ExtendedAdDto(
             1, 
             "null", 
             "null", 
