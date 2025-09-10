@@ -1,3 +1,4 @@
 databaseChangeLog:
   - include:
       file: liquibase/scripts/v1__create_ads_create.sql
+      file: liquibase/scripts/v2_create_users_table.sql
