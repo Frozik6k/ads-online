@@ -10,6 +10,8 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - network_app
 
   ads-online:
     build: .
@@ -18,9 +20,11 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: JeqE34Dzka!lkp
       POSTGRES_DB: ads_db
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
     depends_on:
       postgres:
-        condition: service_healthy
+        condition: service_started
     ports:
       - "8080:8080"
     networks:

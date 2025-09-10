@@ -23,7 +23,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "author_image")
     private String authorImage;
