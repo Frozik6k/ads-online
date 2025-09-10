@@ -1,13 +1,3 @@
 databaseChangeLog:
-  - changeSet:
-      id: init
-      author: monalisa
-      preConditions:
-        - onFail: MARK_RAN
-        - not:
-            tableExists:
-              tableName: exteded_ads
-      changes:
-        - sqlFile:
-            path: db/migration/scripts/init.sql
-            encoding: UTF-8
+  - include:
+      - file: src/main/resources/liquibase/scripts/v3_create_ads_table.sql
