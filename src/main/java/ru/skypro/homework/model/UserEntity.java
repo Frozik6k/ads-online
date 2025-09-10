@@ -1,18 +1,24 @@
 package ru.skypro.homework.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.apache.catalina.User;
 import ru.skypro.homework.dto.Role;
 
-@Data
+import java.util.Objects;
+
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private int id;
+    private long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -38,5 +44,17 @@ public class UserEntity {
 
     @Column
     private String image;
+
+    @Override
+    public boolean equals(Object o){
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity user = (UserEntity) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hashCode(id);
+    }
 
 }

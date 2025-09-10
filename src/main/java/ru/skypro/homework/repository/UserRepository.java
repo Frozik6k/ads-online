@@ -6,8 +6,8 @@ import ru.skypro.homework.model.UserEntity;
 import java.util.Optional;
 
 
-public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<UserEntity> findUserById(int id);
+    Optional<UserEntity> findUserById(long id);
 
 }

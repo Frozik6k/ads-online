@@ -15,7 +15,7 @@ import java.util.Objects;
 public class UserDto {
 
     @Schema(description = "Id пользователя")
-    private int id;
+    private long id;
 
     @Schema(description = "E-mail пользователя")
     private String email;
