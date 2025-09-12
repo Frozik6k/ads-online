@@ -1,5 +1,9 @@
+--liquibase formatted sql
+
+--changeset artem:3
+
 CREATE TABLE extended_ads (
-    pk BIGSERIAL PRIMARY KEY,
+    pk BIGINT PRIMARY KEY,
 
     author_first_name VARCHAR(50) NOT NULL CHECK (author_first_name ~ '^[А-Яа-яA-Za-z\\-\\s]+$'),
     author_last_name VARCHAR(50) NOT NULL CHECK (author_last_name ~ '^[А-Яа-яA-Za-z\\-\\s]+$'),

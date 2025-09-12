@@ -1,6 +1,6 @@
--- liquebase formatted sql
+--liquibase formatted sql
 
---changeset frozik6k:1
+-- changeset frozik6k:1
 CREATE TABLE comment (
     id BIGINT PRIMARY KEY,
     author_image VARCHAR(255),
