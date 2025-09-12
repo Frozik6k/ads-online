@@ -32,6 +32,7 @@ public class Comment {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+    @Column
     private String text;
     @Column(name = "id_author")
     private long idAuthor;
