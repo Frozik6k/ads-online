@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
--- changeset frozik6k:1
-CREATE TABLE comment (
+--changeset frozik6k:1
+CREATE TABLE IF NOT EXISTS comment (
     id BIGINT PRIMARY KEY,
     author_image VARCHAR(255),
     author_firstname VARCHAR(100),

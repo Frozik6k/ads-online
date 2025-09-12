@@ -2,7 +2,7 @@
 
 --changeset artem:3
 
-CREATE TABLE extended_ads (
+CREATE TABLE IF NOT EXISTS extended_ads (
     pk BIGINT PRIMARY KEY,
 
     author_first_name VARCHAR(50) NOT NULL CHECK (author_first_name ~ '^[А-Яа-яA-Za-z\\-\\s]+$'),
