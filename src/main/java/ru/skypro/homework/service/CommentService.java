@@ -8,9 +8,9 @@ public interface CommentService {
 
     CommentsDto getComments(Long idAd);
 
-    CommentDto addComment(Long idAd);
+    CommentDto addComment(Long idAd, CommentCreateOrUpdateRequest request);
 
-    void deleteComment();
+    void deleteComment(Long idAd, Long idComment);
 
     CommentDto updateComment(Long idAd, Long idComment, CommentCreateOrUpdateRequest request);
 }

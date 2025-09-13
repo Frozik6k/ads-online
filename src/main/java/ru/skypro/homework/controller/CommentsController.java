@@ -30,14 +30,14 @@ public class CommentsController {
 
     @PostMapping("/{id}/comments")
     @Operation(summary = "Добавить комментарий к объявлению")
-    public CommentDto addComment(@PathVariable("id") Long idAd) {
-        return commentService.addComment(idAd);
+    public CommentDto addComment(@PathVariable("id") Long idAd, @RequestBody CommentCreateOrUpdateRequest request) {
+        return commentService.addComment(idAd, request);
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")
     @Operation(summary = "Удалить комментарий из объявления")
     public ResponseEntity deleteComment(@PathVariable("adId") Long idAd, @PathVariable("commentId") Long idComment) {
-        commentService.deleteComment();
+        commentService.deleteComment(idAd, idComment);
         return ResponseEntity.ok().build();
     }
 

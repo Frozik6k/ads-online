@@ -3,12 +3,12 @@ package ru.skypro.homework.mapper;
 import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.user.UserDto;
-import ru.skypro.homework.model.UserEntity;
+import ru.skypro.homework.model.User;
 
 @Component
 public class UserMapper {
 
-    public UserDto toUserDto(UserEntity entity) {
+    public UserDto toUserDto(User entity) {
         UserDto dto = new UserDto();
         dto.setId(entity.getId());
         dto.setFirstName(entity.getFirstName());
@@ -19,9 +19,9 @@ public class UserMapper {
         return dto;
     }
 
-    public UserEntity toUserEntity(Register register) {
+    public User toUserEntity(Register register) {
 
-        UserEntity entity = new UserEntity();
+        User entity = new User();
         entity.setUsername(register.getUsername());
         entity.setPassword(register.getPassword());
         entity.setRole(register.getRole());
