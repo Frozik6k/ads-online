@@ -24,7 +24,7 @@ public class CommentDto {
     private LocalDateTime createdAt;
     @JsonProperty("pk")
     @Schema(description = "Идентификатор комментария")
-    private long idComment;
+    private long id;
     @Schema(description = "Текст комментария")
     private String text;
 }

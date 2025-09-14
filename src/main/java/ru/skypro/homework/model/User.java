@@ -1,10 +1,12 @@
 package ru.skypro.homework.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.apache.catalina.User;
 import ru.skypro.homework.dto.Role;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,11 +15,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class UserEntity {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private long id;
 
     @Column(nullable = false, unique = true)
@@ -27,15 +28,18 @@ public class UserEntity {
     private String password;
 
     @Column(name = "first_name", nullable = false)
+    @Size(max = 50)
+    @Pattern(regexp = "^[А-Яа-яA-Za-z\\-\\s]+$", message = "Имя может содержать только буквы, пробелы и дефис")
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
+    @Size(max = 50)
+    @Pattern(regexp = "^[А-Яа-яA-Za-z\\-\\s]+$", message = "Фамилия может содержать только буквы, пробелы и дефис")
     private String lastName;
 
     @Column(nullable = false)
     private String email;
 
-    @Column
     private String phone;
 
     @Enumerated(EnumType.STRING)
@@ -45,10 +49,13 @@ public class UserEntity {
     @Column
     private String image;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Ad> Ads;
+
     @Override
     public boolean equals(Object o){
         if (o == null || getClass() != o.getClass()) return false;
-        UserEntity user = (UserEntity) o;
+        User user = (User) o;
         return id == user.id;
     }
 
