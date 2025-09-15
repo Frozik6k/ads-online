@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Обновление пользователя")
 public class UpdateUserDto {
 
     @Size(min = 3, max = 10, message = "Имя должно иметь от 3 до 10 символов")
