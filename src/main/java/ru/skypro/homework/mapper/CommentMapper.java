@@ -15,5 +15,4 @@ public interface CommentMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "ad", expression = "java(ad)")
     Comment toComment(CommentCreateOrUpdateRequest request, Ad ad);
-
 }
