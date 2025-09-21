@@ -47,7 +47,7 @@ public class UserServiceImplTest {
     private UserServiceImpl service;
 
     @BeforeEach
-    void setUo(){
+    void setUo() {
         ReflectionTestUtils.setField(service, "avatarUploadPath", "test-uploads");
     }
 
