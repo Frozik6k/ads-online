@@ -104,4 +104,8 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public User getByUserName(String username) {
+        return repository.getByUsername(username);
+    }
 }
