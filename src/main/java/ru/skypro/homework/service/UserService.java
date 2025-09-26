@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.user.NewPasswordRequest;
 import ru.skypro.homework.dto.user.UpdateUserDto;
 import ru.skypro.homework.dto.user.UserDto;
+import ru.skypro.homework.model.User;
 
 public interface UserService {
 
@@ -15,4 +16,5 @@ public interface UserService {
 
     void updateUserAvatar(Long userId, MultipartFile avatarFile);
 
+    User getByUserName(String username);
 }
