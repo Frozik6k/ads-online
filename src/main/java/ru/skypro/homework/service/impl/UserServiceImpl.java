@@ -1,6 +1,7 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -102,6 +103,13 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Ошибка при обновлении аватара", e);
         }
 
+    }
+
+    @Override
+    public User getByUserName(String username) {
+        return repository.findByUsername(username).orElseThrow(
+            () -> new UserNotFoundException("Пользователь не найден")
+        );
     }
 
 }
