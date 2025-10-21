@@ -16,12 +16,13 @@ import ru.skypro.homework.service.UserService;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     
-    private final UserService UserService;
+    private final UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //TODO: implement
-        User user = UserService.getByUserName(username);
+
+        User user = userService.getByUserName(username);
+
         org.springframework.security.core.userdetails.User userPrincipals = 
             new org.springframework.security.core.userdetails.User(
                 user.getUsername(),

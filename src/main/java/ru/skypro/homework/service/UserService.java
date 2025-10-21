@@ -16,6 +16,5 @@ public interface UserService {
 
     void updateUserAvatar(Long userId, MultipartFile avatarFile);
 
-
     User getByUserName(String username);
 }
