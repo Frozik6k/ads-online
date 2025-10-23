@@ -57,8 +57,9 @@ public class AdsController {
     }
 
     @GetMapping("/me")
-    public AdsDto getCurrentUserAds() {
-        return adService.getCurrentUserAds();
+    public AdsDto getCurrentUserAds(@AuthenticationPrincipal UserDetails user) {
+        String username = user.getUsername();
+        return adService.getCurrentUserAds(username);
     }
 
     @PatchMapping("/{id}/image")
