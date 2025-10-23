@@ -1,8 +1,7 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
+
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.download.StorageFile;
 import ru.skypro.homework.dto.ads.AdDto;
@@ -11,9 +10,9 @@ import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.ads.AdsDto;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.Ad;
-import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.service.Adservice;
+import ru.skypro.homework.service.UserService;
 
 import java.util.List;
 
@@ -21,18 +20,18 @@ import java.util.List;
 public class AdServiceImpl implements Adservice {
 
     final private AdRepository adRepository;
+    final private UserService userService;
     final private AdMapper adMapper;
     final private StorageFile storageFile;
-    final private UserDetailsService userDetailsService;
 
     @Override
     public AdsDto getAllAds() {
-        List<Ad>  ads = adRepository.findAll();
+        List<Ad> ads = adRepository.findAll();
         return adMapper.toAdsDto(ads);
     }
 
     @Override
-    public AdDto createAd(AdRequestDto req,  MultipartFile image) {
+    public AdDto createAd(AdRequestDto req, MultipartFile image) {
         Ad ad = adMapper.toEntity(req);
         ad.setImage(storageFile.download(image));
         adRepository.save(ad);
@@ -42,7 +41,7 @@ public class AdServiceImpl implements Adservice {
     @Override
     public AdResponseDto getAd(long id) {
         Ad ad = adRepository.getReferenceById(id);
-        return adMapper.toFullDto(ad) ;
+        return adMapper.toFullDto(ad);
     }
 
     @Override
@@ -60,10 +59,9 @@ public class AdServiceImpl implements Adservice {
     }
 
     @Override
-    public AdsDto getCurrentUserAds() {
-        //TODO необходимо получить текущего пользователя User
-        List<Ad>  ads = adRepository.findAll(); //TODO сделать фильтр по user;
-        return null;
+    public AdsDto getCurrentUserAds(String userName) {
+        long userId = userService.getByUserName(userName).getId();
+        return adMapper.toAdsDto(adRepository.findAllByUserId(userId));
     }
 
     @Override

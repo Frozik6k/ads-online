@@ -19,7 +19,7 @@ public interface Adservice {
 
     AdDto updateAd(long id, AdRequestDto req);
 
-    AdsDto getCurrentUserAds();
+    AdsDto getCurrentUserAds(String userName);
 
     String updateAdImage(long id, MultipartFile file);
 }
