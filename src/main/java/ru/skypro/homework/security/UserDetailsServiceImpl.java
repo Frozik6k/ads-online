@@ -15,7 +15,7 @@ import ru.skypro.homework.service.UserService;
 @RequiredArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    
+
     private final UserService userService;
 
     @Override
@@ -23,13 +23,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         User user = userService.getByUserName(username);
 
-        org.springframework.security.core.userdetails.User userPrincipals = 
-            new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
-            );
+        org.springframework.security.core.userdetails.User userPrincipals =
+                new org.springframework.security.core.userdetails.User(
+                        user.getUsername(),
+                        user.getPassword(),
+                        List.of(new SimpleGrantedAuthority(user.getRole().name()))
+                );
 
         return userPrincipals;
     }
+
+
 }

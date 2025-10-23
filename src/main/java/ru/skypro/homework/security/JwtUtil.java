@@ -1,5 +1,6 @@
 package ru.skypro.homework.security;
 
+import java.time.Clock;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -17,30 +18,36 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtUtil {
     @Value("${security.jwt.secret}")
-    private String secrete;
+    private String secret;
 
     private SecretKey secretKey;
 
     @Value("${security.token.lifetime}")
     private Long expirationTime;
 
+    private final Clock clock;
+
     @PostConstruct
     void init() {
-        secretKey = generateSecretKey(secrete);
+        secretKey = generateSecretKey(secret);
     }
 
     public String generateToken(UserDetails details) {
+
+        Date now = Date.from(clock.instant());
+        Date exp = new Date(now.getTime() + expirationTime);
+
         return Jwts.builder()
             .subject(details.getUsername())
             .claim("role", details.getAuthorities())
-            .issuedAt(new Date())
-            .expiration(new Date(System.currentTimeMillis() + expirationTime))
+            .issuedAt(now)
+            .expiration(exp)
             .signWith(secretKey, Jwts.SIG.HS256)
             .compact();
     }
 
-    private SecretKey generateSecretKey(String secrete) {
-        return Keys.hmacShaKeyFor(secrete.getBytes());
+    private SecretKey generateSecretKey(String secret) {
+        return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String getUserName(String token) {

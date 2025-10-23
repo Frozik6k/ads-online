@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import ru.skypro.homework.security.AuthEntryPoint;
 import ru.skypro.homework.security.SecurityFilter;
 
 @EnableWebSecurity
@@ -25,7 +26,7 @@ public class WebSecurityConfig {
 
     private final SecurityFilter filter;
 
-    private final AuthenticationEntryPoint entryPoint;
+    private final AuthEntryPoint entryPoint;
     
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -57,5 +58,7 @@ public class WebSecurityConfig {
     PasswordEncoder passwordEncoder() {
         return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
+
+
 
 }
