@@ -255,7 +255,6 @@ public class UserServiceImplTest {
         assertThrows(IllegalArgumentException.class, () -> service.updateUserAvatar(userId, file));
     }
 
-    //Проверить почему не работает
     @Test
     void shouldThrowRuntimeException_whenIOExceptionOccurs() throws IOException {
         Long userId = 1L;
