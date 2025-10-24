@@ -7,7 +7,7 @@ import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.user.UserDto;
 import ru.skypro.homework.model.User;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     UserDto toUserDto(User entity);
