@@ -19,7 +19,7 @@ import ru.skypro.homework.service.CommentService;
         maxAge = 3600
 )
 @RestController
-@RequestMapping("ads")
+@RequestMapping("/ads")
 @Tag(name = "Комментарии")
 @RequiredArgsConstructor
 public class CommentsController {

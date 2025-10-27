@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.skypro.homework.service.AdService;
 
 @RestController
-@RequestMapping("ads")
+@RequestMapping("/ads")
 @RequiredArgsConstructor
 @CrossOrigin(
     value = "http://localhost:3000",
@@ -28,12 +28,12 @@ public class AdsController {
 
     final private AdService adService;
 
-    @GetMapping("/")
+    @GetMapping
     public AdsDto getAllAds() {
         return adService.getAllAds();
     }
 
-    @PostMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public AdDto createAd(@RequestBody AdRequestDto req, MultipartFile image) {
         return adService.createAd(req, image);
