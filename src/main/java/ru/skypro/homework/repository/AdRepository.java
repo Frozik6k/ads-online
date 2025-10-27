@@ -12,4 +12,6 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
     List<Ad> findAllByUserId(long id);
 
     long user(User user);
+
+    boolean existsByIdAndUserId(long id, long userId);
 }

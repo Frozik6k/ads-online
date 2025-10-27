@@ -11,9 +11,13 @@ import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.CommentsDto;
 import ru.skypro.homework.service.CommentService;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
+@CrossOrigin(
+        value = "http://localhost:3000",
+        allowCredentials = "true",
+        allowedHeaders = {"Content-Type", "Authorization"},
+        methods = {RequestMethod.GET, RequestMethod.POST,  RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE},
+        maxAge = 3600
+)
 @RestController
 @RequestMapping("ads")
 @Tag(name = "Комментарии")

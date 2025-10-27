@@ -1,14 +1,12 @@
 package ru.skypro.homework.service;
 
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.AdRequestDto;
 import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.ads.AdsDto;
 
-@Service
-public interface Adservice {
+public interface AdService {
     AdsDto getAllAds();
 
     AdDto createAd(AdRequestDto req, MultipartFile file);

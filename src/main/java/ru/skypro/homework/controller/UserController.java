@@ -7,13 +7,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.comments.CommentCreateOrUpdateRequest;
-import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.user.NewPasswordRequest;
 import ru.skypro.homework.dto.user.UpdateUserDto;
 import ru.skypro.homework.dto.user.UserDto;
 import ru.skypro.homework.service.UserService;
 
+@CrossOrigin(
+        value = "http://localhost:3000",
+        allowCredentials = "true",
+        allowedHeaders = {"Content-Type", "Authorization"},
+        methods = {RequestMethod.GET, RequestMethod.POST,  RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE},
+        maxAge = 3600
+)
 @RestController
 @RequestMapping("/users")
 @Tag(name = "Пользователи")

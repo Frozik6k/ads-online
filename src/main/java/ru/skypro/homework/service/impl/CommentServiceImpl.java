@@ -1,7 +1,9 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.comments.CommentCreateOrUpdateRequest;
 import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.CommentsDto;
@@ -23,12 +25,14 @@ public class CommentServiceImpl implements CommentService {
     private final AdCommentsMapper adCommentsMapper;
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     public CommentsDto getComments(Long idAd) {
         Ad ad = adRepository.getReferenceById(idAd);
         return adCommentsMapper.toCommentsDto(ad);
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     public CommentDto addComment(Long idAd, CommentCreateOrUpdateRequest request) {
         Ad ad = adRepository.getReferenceById(idAd);
         Comment comment = commentMapper.toComment(request, ad);
@@ -37,11 +41,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @PreAuthorize("hasRole(Role.ADMIN) or @security.isCommentOwner(#idComment, authentication.name)")
     public void deleteComment(Long idAd, Long idComment) {
         commentRepository.deleteById(idComment);
     }
 
     @Override
+    @PreAuthorize("hasRole(Role.ADMIN) or @security.isCommentOwner(#idComment, authentication.name)")
     public CommentDto updateComment(Long idAd, Long idComment, CommentCreateOrUpdateRequest request) {
         Comment comment = commentRepository.getReferenceById(idComment);
         comment.setText(request.getText());
