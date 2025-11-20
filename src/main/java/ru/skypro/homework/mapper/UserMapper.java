@@ -6,8 +6,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.user.UserDto;
 import ru.skypro.homework.model.User;
@@ -18,9 +16,6 @@ import java.util.Collection;
 public interface UserMapper {
 
     UserDto toUserDto(User entity);
-
-    @Mapping(target = "id", ignore = true)
-    User toUserEntity(Register register);
 
     @BeanMapping(ignoreByDefault = true)
     @Mappings({

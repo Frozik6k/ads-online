@@ -2,7 +2,7 @@
 
 --changeset Aidar:2
 CREATE TABLE IF NOT EXISTS users (
-    id BIGINT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     username VARCHAR(254) NOT NULL UNIQUE,
     password VARCHAR(60),
     first_name VARCHAR(100),
