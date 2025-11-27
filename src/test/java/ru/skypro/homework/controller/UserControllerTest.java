@@ -114,7 +114,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/users/1/set_password")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
 
 
     }
