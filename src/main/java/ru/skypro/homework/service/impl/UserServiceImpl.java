@@ -2,6 +2,7 @@ package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private String avatarUploadPath;
 
     @Override
+    @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#userId, authentication.name)")
     public void setUserPassword(Long userId, NewPasswordRequest passwordData) {
         User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
 

@@ -12,11 +12,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.Role;
+import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.user.UserDto;
 import ru.skypro.homework.model.User;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,19 +38,18 @@ public class UserMapperTest {
         user = new User();
         user.setId(1L);
         user.setUsername("username");
-        user.setFirstName("FirstName");
-        user.setLastName("LastName");
-        user.setEmail("Email");
-        user.setPassword("Password");
-        user.setPhone("+79082691460");
+        user.setFirstName("firstName");
+        user.setLastName("lastName");
+        user.setPassword("password");
+        user.setPhone("+79999999999");
         user.setRole(Role.USER);
         user.setImage("path/to/image.jpg");
 
         userDto = new UserDto();
         userDto.setId(user.getId());
+        userDto.setEmail(user.getUsername());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
         userDto.setPhone(user.getPhone());
         userDto.setRole(user.getRole());
         userDto.setImage(user.getImage());
@@ -118,6 +119,55 @@ public class UserMapperTest {
         //then
         assertEquals(role, userMapper.toRole(grantedAuthorities));
 
+    }
+
+    @Test
+    public void givenRegister_whenUser_thenGetUser() {
+        //given
+        Register register = new Register();
+        register.setUsername(user.getUsername());
+        register.setPassword(user.getPassword());
+        register.setFirstName(user.getFirstName());
+        register.setLastName(user.getLastName());
+        register.setRole(user.getRole());
+        register.setPhone(user.getPhone());
+
+        //when
+        User userOutput = userMapper.fromRegister(register);
+
+        //then
+        assertEquals(user.getUsername(), userOutput.getUsername());
+        assertEquals(user.getPassword(), userOutput.getPassword());
+        assertEquals(user.getFirstName(), userOutput.getFirstName());
+        assertEquals(user.getLastName(), userOutput.getLastName());
+        assertEquals(user.getPhone(), userOutput.getPhone());
+        assertEquals(user.getRole(), userOutput.getRole());
+
+    }
+
+    @Test
+    public void givenAdResponseDto_whenMapping_thenGetUser() {
+        //given
+        AdResponseDto adResponseDto = new AdResponseDto(
+                4,
+                "firstName",
+                "lastName",
+                "description",
+                "username",
+                "pathAd",
+                "+79999999999",
+                BigDecimal.valueOf(100),
+                "title"
+        );
+
+        //when
+        User userOutput = userMapper.fromAdResponseDtoToUser(adResponseDto);
+
+        //then
+        assertEquals(user.getFirstName(), userOutput.getFirstName());
+        assertEquals(user.getLastName(), userOutput.getLastName());
+        assertEquals(user.getPhone(), userOutput.getPhone());
+        assertEquals(user.getUsername(), userOutput.getUsername());
     }
 
 }

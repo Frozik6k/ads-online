@@ -6,8 +6,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.Role;
+import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.user.UserDto;
+import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.User;
 
 import java.util.Collection;
@@ -15,6 +18,9 @@ import java.util.Collection;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    @Mappings({
+            @Mapping(target = "email", source = "username")
+    })
     UserDto toUserDto(User entity);
 
     @BeanMapping(ignoreByDefault = true)
@@ -35,4 +41,12 @@ public interface UserMapper {
         return Role.USER;
     }
 
+    User fromRegister(Register register);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "firstName", source = "authorFirstName")
+    @Mapping(target = "lastName", source = "authorLastName")
+    @Mapping(target = "username", source = "email")
+    @Mapping(target = "phone", source = "phone")
+    User fromAdResponseDtoToUser(AdResponseDto adResponseDto);
 }

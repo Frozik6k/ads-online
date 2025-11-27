@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 
+import org.mapstruct.Mapping;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.AdRequestDto;
 import ru.skypro.homework.dto.ads.AdResponseDto;
@@ -12,17 +13,21 @@ import ru.skypro.homework.model.Ad;
 
 @Mapper(componentModel = "spring")
 public interface AdMapper {
-    
-    Ad toFullEntity(AdResponseDto adResponseDto);
-    AdResponseDto toFullDto(Ad ad);
 
-    Ad toEntity(AdDto adDto);
-    AdDto toShortDto(Ad ad);
+        @Mapping(target = "pk", source = "id")
+        @Mapping(target = "email", source = "user.username")
+        @Mapping(target = "phone", source = "user.phone")
+        @Mapping(target = "authorFirstName", source = "user.firstName")
+        @Mapping(target = "authorLastName", source = "user.lastName")
+    AdResponseDto fromAdToAdResponseDto(Ad ad);
 
-    Ad toEntity(AdRequestDto adRequestDto);
-    AdRequestDto toRequestDto(Ad ad);
+        @Mapping(target = "pk", source = "id")
+        @Mapping(target = "author", source = "user.id")
+    AdDto toAdDto(Ad ad);
 
-    default AdsDto toAdsDto(List<Ad> ads) {
-        return new AdsDto(ads.size(), ads.stream().map(this::toShortDto).toList());
-    }
+    Ad fromAdRequestDtoToAd(AdRequestDto adRequestDto);
+
+    default AdsDto fromAdsToAdsDto(List<Ad> ads) {
+            return new AdsDto(ads.size(), ads.stream().map(this::toAdDto).toList());
+        }
 }

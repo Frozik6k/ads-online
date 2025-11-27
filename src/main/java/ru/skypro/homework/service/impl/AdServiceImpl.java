@@ -6,7 +6,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.download.StorageFile;
-import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.AdRequestDto;
 import ru.skypro.homework.dto.ads.AdResponseDto;
@@ -32,23 +31,23 @@ public class AdServiceImpl implements AdService {
     @PreAuthorize("permitAll()")
     public AdsDto getAllAds() {
         List<Ad> ads = adRepository.findAll();
-        return adMapper.toAdsDto(ads);
+        return adMapper.fromAdsToAdsDto(ads);
     }
 
     @Override
     @PreAuthorize("isAuthenticated()")
     public AdDto createAd(AdRequestDto req, MultipartFile image) {
-        Ad ad = adMapper.toEntity(req);
+        Ad ad = adMapper.fromAdRequestDtoToAd(req);
         ad.setImage(storageFile.download(image));
         adRepository.save(ad);
-        return adMapper.toShortDto(ad);
+        return adMapper.toAdDto(ad);
     }
 
     @Override
     @PreAuthorize("hasRole(Role.USER) or hasRole(Role.ADMIN)")
     public AdResponseDto getAd(long id) {
         Ad ad = adRepository.getReferenceById(id);
-        return adMapper.toFullDto(ad);
+        return adMapper.fromAdToAdResponseDto(ad);
     }
 
     @Override
@@ -60,18 +59,18 @@ public class AdServiceImpl implements AdService {
     @Override
     @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#id, authentication.name)")
     public AdDto updateAd(long id, AdRequestDto req) {
-        Ad ad = adMapper.toEntity(req);
+        Ad ad = adMapper.fromAdRequestDtoToAd(req);
         if (adRepository.getReferenceById(id) == null) throw new IllegalArgumentException("Объявление не найдено");
         ad.setId(id);
         adRepository.save(ad);
-        return adMapper.toShortDto(ad);
+        return adMapper.toAdDto(ad);
     }
 
     @Override
     @PreAuthorize("hasRole(Role.USER) or hasRole(Role.ADMIN)")
     public AdsDto getCurrentUserAds(String userName) {
         long userId = userService.getByUserName(userName).getId();
-        return adMapper.toAdsDto(adRepository.findAllByUserId(userId));
+        return adMapper.fromAdsToAdsDto(adRepository.findAllByUserId(userId));
     }
 
     @Override

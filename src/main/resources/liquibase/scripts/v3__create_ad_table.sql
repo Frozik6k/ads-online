@@ -3,7 +3,7 @@
 --changeset artem:3
 
 CREATE TABLE IF NOT EXISTS ad (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL CHECK (length(description) >= 10),
     image VARCHAR(255) NOT NULL,
     price NUMERIC NOT NULL CHECK (price >= 0),

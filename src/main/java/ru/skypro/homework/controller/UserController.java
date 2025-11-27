@@ -3,13 +3,17 @@ package ru.skypro.homework.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.user.NewPasswordRequest;
 import ru.skypro.homework.dto.user.UpdateUserDto;
 import ru.skypro.homework.dto.user.UserDto;
+import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.UserService;
 
 @CrossOrigin(
@@ -23,33 +27,36 @@ import ru.skypro.homework.service.UserService;
 @RequestMapping("/users")
 @Tag(name = "Пользователи")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
-    private final UserService service;
+    private final UserService userService;
+
 
     @PostMapping("/{id}/set_password")
     @Operation(summary = "Обновление пароля")
     public ResponseEntity<Void> setPassword(@PathVariable("id") Long userId, @RequestBody NewPasswordRequest passwordData){
-        service.setUserPassword(userId, passwordData);
+        userService.setUserPassword(userId, passwordData);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/me")
+    @GetMapping("/me")
     @Operation(summary = "Получить данные пользователя")
-    public UserDto getUser(@PathVariable("id") Long userId) {
-        return service.getUser(userId);
+    public UserDto getUser(@AuthenticationPrincipal SecurityUser currentUser) {
+
+        return userService.getUser(currentUser.getDomainUser().getId());
     }
 
     @PatchMapping("/{id}/me")
     @Operation(summary = "Обновление данных пользователя")
     public UserDto updateUser(@PathVariable("id") Long userId, @RequestBody UpdateUserDto updateUserData) {
-        return service.updateUser(userId, updateUserData);
+        return userService.updateUser(userId, updateUserData);
     }
 
     @PatchMapping(value = "/{id}/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Обновление аватара пользователя")
     public ResponseEntity<?> updateUserImage(@PathVariable("id") Long userId, @RequestParam("image")MultipartFile image){
-        service.updateUserAvatar(userId, image);
+        userService.updateUserAvatar(userId, image);
         return ResponseEntity.ok().build();
     }
 

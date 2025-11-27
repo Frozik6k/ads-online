@@ -37,9 +37,6 @@ public class User {
     @Pattern(regexp = "^[А-Яа-яA-Za-z\\-\\s]+$", message = "Фамилия может содержать только буквы, пробелы и дефис")
     private String lastName;
 
-    @Column(nullable = false)
-    private String email;
-
     private String phone;
 
     @Enumerated(EnumType.STRING)
