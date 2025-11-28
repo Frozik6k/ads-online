@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.ads.AdResponseDto;
+import ru.skypro.homework.dto.user.UpdateUserDto;
 import ru.skypro.homework.dto.user.UserDto;
 import ru.skypro.homework.model.User;
 
@@ -168,6 +169,23 @@ public class UserMapperTest {
         assertEquals(user.getLastName(), userOutput.getLastName());
         assertEquals(user.getPhone(), userOutput.getPhone());
         assertEquals(user.getUsername(), userOutput.getUsername());
+    }
+
+    @Test
+    public void givenUser_whenMapping_thenGetUpdateUserDto() {
+        //given
+        UpdateUserDto updateUserDto = new UpdateUserDto(
+                "firstName",
+                "lastName",
+                "+79999999999"
+        );
+
+        //when
+        UpdateUserDto updateUserDtoOutput = userMapper.toUpdateUserDto(user);
+
+        assertEquals(updateUserDto.getFirstName(), updateUserDtoOutput.getFirstName());
+        assertEquals(updateUserDto.getLastName(), updateUserDtoOutput.getLastName());
+        assertEquals(updateUserDto.getPhone(), updateUserDtoOutput.getPhone());
     }
 
 }

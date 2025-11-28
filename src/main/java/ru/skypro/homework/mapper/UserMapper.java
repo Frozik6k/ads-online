@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.ads.AdResponseDto;
+import ru.skypro.homework.dto.user.UpdateUserDto;
 import ru.skypro.homework.dto.user.UserDto;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.User;
@@ -49,4 +50,6 @@ public interface UserMapper {
     @Mapping(target = "username", source = "email")
     @Mapping(target = "phone", source = "phone")
     User fromAdResponseDtoToUser(AdResponseDto adResponseDto);
+
+    UpdateUserDto toUpdateUserDto(User updatedUser);
 }

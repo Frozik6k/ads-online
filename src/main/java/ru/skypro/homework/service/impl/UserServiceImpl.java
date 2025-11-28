@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(Long userId, UpdateUserDto updateUserDto) {
+    public UpdateUserDto updateUser(Long userId, UpdateUserDto updateUserDto) {
 
         User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
 
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
         User updatedUser = repository.save(user);
 
-        return mapper.toUserDto(updatedUser);
+        return mapper.toUpdateUserDto(updatedUser);
     }
 
     @Override

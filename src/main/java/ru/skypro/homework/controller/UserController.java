@@ -33,30 +33,30 @@ public class UserController {
     private final UserService userService;
 
 
-    @PostMapping("/{id}/set_password")
+    @PostMapping("/set_password")
     @Operation(summary = "Обновление пароля")
-    public ResponseEntity<Void> setPassword(@PathVariable("id") Long userId, @RequestBody NewPasswordRequest passwordData){
-        userService.setUserPassword(userId, passwordData);
+    public ResponseEntity<Void> setPassword(@AuthenticationPrincipal SecurityUser user, @RequestBody NewPasswordRequest passwordData){
+        userService.setUserPassword(user.getDomainUser().getId(), passwordData);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/me")
     @Operation(summary = "Получить данные пользователя")
-    public UserDto getUser(@AuthenticationPrincipal SecurityUser currentUser) {
+    public UserDto getUser(@AuthenticationPrincipal SecurityUser user) {
 
-        return userService.getUser(currentUser.getDomainUser().getId());
+        return userService.getUser(user.getDomainUser().getId());
     }
 
-    @PatchMapping("/{id}/me")
+    @PatchMapping("/me")
     @Operation(summary = "Обновление данных пользователя")
-    public UserDto updateUser(@PathVariable("id") Long userId, @RequestBody UpdateUserDto updateUserData) {
-        return userService.updateUser(userId, updateUserData);
+    public UpdateUserDto updateUser(@AuthenticationPrincipal SecurityUser user, @RequestBody UpdateUserDto updateUserData) {
+        return userService.updateUser(user.getDomainUser().getId(), updateUserData);
     }
 
-    @PatchMapping(value = "/{id}/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Обновление аватара пользователя")
-    public ResponseEntity<?> updateUserImage(@PathVariable("id") Long userId, @RequestParam("image")MultipartFile image){
-        userService.updateUserAvatar(userId, image);
+    public ResponseEntity<?> updateUserImage(@AuthenticationPrincipal SecurityUser user, @RequestParam("image")MultipartFile image){
+        userService.updateUserAvatar(user.getDomainUser().getId(), image);
         return ResponseEntity.ok().build();
     }
 

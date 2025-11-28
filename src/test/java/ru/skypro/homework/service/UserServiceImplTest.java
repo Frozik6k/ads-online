@@ -187,7 +187,7 @@ public class UserServiceImplTest {
         when(repository.save(any(User.class))).thenReturn(savedUser);
         when(mapper.toUserDto(savedUser)).thenReturn(expectedUserDto);
 
-        UserDto result = service.updateUser(userId, updateUserDto);
+        UpdateUserDto result = service.updateUser(userId, updateUserDto);
 
         assertEquals("Name2", result.getFirstName());
         assertEquals("LastName2", result.getLastName());
