@@ -178,14 +178,9 @@ public class UserServiceImplTest {
         savedUser.setLastName("LastName2");
         savedUser.setPhone("79990002233");
 
-        UserDto expectedUserDto = new UserDto();
-        expectedUserDto.setFirstName("Name2");
-        expectedUserDto.setLastName("LastName2");
-        expectedUserDto.setPhone("79990002233");
-
         when(repository.findById(userId)).thenReturn(Optional.of(user));
         when(repository.save(any(User.class))).thenReturn(savedUser);
-        when(mapper.toUserDto(savedUser)).thenReturn(expectedUserDto);
+        when(mapper.toUpdateUserDto(savedUser)).thenReturn(updateUserDto);
 
         UpdateUserDto result = service.updateUser(userId, updateUserDto);
 
@@ -194,7 +189,7 @@ public class UserServiceImplTest {
         assertEquals("79990002233", result.getPhone());
 
         verify(repository).save(user);
-        verify(mapper).toUserDto(savedUser);
+        verify(mapper).toUpdateUserDto(savedUser);
     }
 
     @Test

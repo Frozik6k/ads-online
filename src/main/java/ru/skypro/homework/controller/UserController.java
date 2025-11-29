@@ -7,12 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.user.NewPasswordRequest;
 import ru.skypro.homework.dto.user.UpdateUserDto;
 import ru.skypro.homework.dto.user.UserDto;
+import ru.skypro.homework.model.User;
 import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.UserService;
 
@@ -32,7 +32,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     @PostMapping("/set_password")
     @Operation(summary = "Обновление пароля")
     public ResponseEntity<Void> setPassword(@AuthenticationPrincipal SecurityUser user, @RequestBody NewPasswordRequest passwordData){
@@ -43,14 +42,17 @@ public class UserController {
     @GetMapping("/me")
     @Operation(summary = "Получить данные пользователя")
     public UserDto getUser(@AuthenticationPrincipal SecurityUser user) {
-
-        return userService.getUser(user.getDomainUser().getId());
+        User currentUser = user.getDomainUser();
+        log.info("Получение информации о пользователе: " + currentUser.getUsername());
+        return userService.getUser(currentUser.getId());
     }
 
     @PatchMapping("/me")
     @Operation(summary = "Обновление данных пользователя")
     public UpdateUserDto updateUser(@AuthenticationPrincipal SecurityUser user, @RequestBody UpdateUserDto updateUserData) {
-        return userService.updateUser(user.getDomainUser().getId(), updateUserData);
+        User currentUser = user.getDomainUser();
+        log.info("Обновление информации о пользователе: " + currentUser.getUsername());
+        return userService.updateUser(currentUser.getId(), updateUserData);
     }
 
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

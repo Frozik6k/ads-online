@@ -17,7 +17,7 @@ public interface AdService {
 
     AdDto updateAd(long id, AdRequestDto req);
 
-    AdsDto getCurrentUserAds(String userName);
+    AdsDto getCurrentUserAds(long id);
 
-    String updateAdImage(long id, MultipartFile file);
+    void updateAdImage(long id, MultipartFile file);
 }

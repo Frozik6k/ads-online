@@ -1,5 +1,6 @@
 package ru.skypro.homework.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.AdService;
 
 @RestController
@@ -35,8 +37,8 @@ public class AdsController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public AdDto createAd(@RequestBody AdRequestDto req, MultipartFile image) {
-        return adService.createAd(req, image);
+    public ResponseEntity<AdDto> createAd(@RequestPart("properties") AdRequestDto req, MultipartFile image) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(adService.createAd(req, image));
     }
 
     @GetMapping("/{id}")
@@ -56,13 +58,13 @@ public class AdsController {
     }
 
     @GetMapping("/me")
-    public AdsDto getCurrentUserAds(@AuthenticationPrincipal UserDetails user) {
-        String username = user.getUsername();
-        return adService.getCurrentUserAds(username);
+    public AdsDto getCurrentUserAds(@AuthenticationPrincipal SecurityUser user) {
+        Long id = user.getDomainUser().getId();
+        return adService.getCurrentUserAds(id);
     }
 
     @PatchMapping("/{id}/image")
-    public String updateAdImage(@PathVariable long id, MultipartFile image) {
-        return adService.updateAdImage(id, image);
+    public void updateAdImage(@PathVariable long id, MultipartFile image) {
+        adService.updateAdImage(id, image);
     }
 }

@@ -7,6 +7,8 @@ import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.comments.CommentCreateOrUpdateRequest;
 import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.CommentsDto;
+import ru.skypro.homework.exception.AdNotFoundException;
+import ru.skypro.homework.exception.CommentNotFoundException;
 import ru.skypro.homework.mapper.AdCommentsMapper;
 import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.model.Ad;
@@ -27,14 +29,16 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @PreAuthorize("isAuthenticated()")
     public CommentsDto getComments(Long idAd) {
-        Ad ad = adRepository.getReferenceById(idAd);
+        Ad ad = adRepository.findById(idAd)
+                .orElseThrow(() -> new AdNotFoundException(idAd));
         return adCommentsMapper.toCommentsDto(ad);
     }
 
     @Override
     @PreAuthorize("isAuthenticated()")
     public CommentDto addComment(Long idAd, CommentCreateOrUpdateRequest request) {
-        Ad ad = adRepository.getReferenceById(idAd);
+        Ad ad = adRepository.findById(idAd)
+                .orElseThrow(() -> new AdNotFoundException(idAd));
         Comment comment = commentMapper.toComment(request, ad);
         commentRepository.save(comment);
         return commentMapper.toCommentDto(comment);
@@ -43,15 +47,23 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @PreAuthorize("hasRole(Role.ADMIN) or @security.isCommentOwner(#idComment, authentication.name)")
     public void deleteComment(Long idAd, Long idComment) {
-        commentRepository.deleteById(idComment);
+        adRepository.findById(idAd)
+                .orElseThrow(() -> new AdNotFoundException(idAd));
+        Comment comment = commentRepository.findById(idComment)
+                .orElseThrow(() -> new CommentNotFoundException(idComment));
     }
 
     @Override
     @PreAuthorize("hasRole(Role.ADMIN) or @security.isCommentOwner(#idComment, authentication.name)")
     public CommentDto updateComment(Long idAd, Long idComment, CommentCreateOrUpdateRequest request) {
-        Comment comment = commentRepository.getReferenceById(idComment);
+        adRepository.findById(idAd)
+                .orElseThrow(() -> new AdNotFoundException(idAd));
+        Comment comment = commentRepository.findById(idComment)
+                .orElseThrow(() -> new CommentNotFoundException(idComment));
+
         comment.setText(request.getText());
         commentRepository.save(comment);
+
         return commentMapper.toCommentDto(comment);
     }
 }

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.core.MethodParameter;
@@ -29,7 +28,7 @@ import ru.skypro.homework.dto.user.UserDto;
 import ru.skypro.homework.exception.InvalidPasswordException;
 import ru.skypro.homework.exception.UserNotFoundException;
 import ru.skypro.homework.model.User;
-import ru.skypro.homework.repository.UserRepository;
+
 import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.UserService;
 
@@ -87,7 +86,7 @@ public class UserControllerTest {
         User user = new User(1L, "user@mail.ru", "password",
                 "Ivan", "Ivanov", "+79990000000", Role.USER,
                 "path", null);
-        
+
         UserDto userDto = new UserDto(1L, "user@mail.ru",
                 "Ivan", "Ivanov", "+79990000000", Role.USER,
                 "path");
@@ -150,8 +149,8 @@ public class UserControllerTest {
         when(userService.updateUser(1L, request)).thenReturn(request);
 
         mockMvc.perform(patch("/users/me")
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value("Ivan"))
                 .andExpect(jsonPath("$.lastName").value("Ivanov"))
@@ -182,7 +181,7 @@ public class UserControllerTest {
 
         // Захватываем MultipartFile, с которым контроллер вызвал сервис
         ArgumentCaptor<MultipartFile> captor = ArgumentCaptor.forClass(MultipartFile.class);
-        verify(userService).updateUserAvatar(any() , captor.capture());
+        verify(userService).updateUserAvatar(any(), captor.capture());
 
         MultipartFile passedFile = captor.getValue();
 

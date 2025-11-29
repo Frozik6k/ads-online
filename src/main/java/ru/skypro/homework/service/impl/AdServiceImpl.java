@@ -10,6 +10,7 @@ import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.AdRequestDto;
 import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.ads.AdsDto;
+import ru.skypro.homework.exception.AdNotFoundException;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.repository.AdRepository;
@@ -46,13 +47,16 @@ public class AdServiceImpl implements AdService {
     @Override
     @PreAuthorize("hasRole(Role.USER) or hasRole(Role.ADMIN)")
     public AdResponseDto getAd(long id) {
-        Ad ad = adRepository.getReferenceById(id);
+        Ad ad = adRepository.findById(id)
+                .orElseThrow(() -> new AdNotFoundException(id));
         return adMapper.fromAdToAdResponseDto(ad);
     }
 
     @Override
     @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#id, authentication.name)")
     public void deleteAd(long id) {
+        adRepository.findById(id)
+                        .orElseThrow(() -> new AdNotFoundException(id));
         adRepository.deleteById(id);
     }
 
@@ -60,7 +64,8 @@ public class AdServiceImpl implements AdService {
     @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#id, authentication.name)")
     public AdDto updateAd(long id, AdRequestDto req) {
         Ad ad = adMapper.fromAdRequestDtoToAd(req);
-        if (adRepository.getReferenceById(id) == null) throw new IllegalArgumentException("Объявление не найдено");
+        adRepository.findById(id)
+                .orElseThrow(() -> new AdNotFoundException(id));
         ad.setId(id);
         adRepository.save(ad);
         return adMapper.toAdDto(ad);
@@ -68,19 +73,17 @@ public class AdServiceImpl implements AdService {
 
     @Override
     @PreAuthorize("hasRole(Role.USER) or hasRole(Role.ADMIN)")
-    public AdsDto getCurrentUserAds(String userName) {
-        long userId = userService.getByUserName(userName).getId();
-        return adMapper.fromAdsToAdsDto(adRepository.findAllByUserId(userId));
+    public AdsDto getCurrentUserAds(long id) {
+        return adMapper.fromAdsToAdsDto(adRepository.findAllByUserId(id));
     }
 
     @Override
     @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#id, authentication.name)")
-    public String updateAdImage(long id, MultipartFile file) {
-        Ad ad = adRepository.getReferenceById(id);
-        if (ad == null) throw new IllegalArgumentException("Объявление не найдено");
+    public void updateAdImage(long id, MultipartFile file) {
+        Ad ad = adRepository.findById(id)
+                .orElseThrow(() -> new AdNotFoundException(id));
         String patch = storageFile.download(file);
         ad.setImage(patch);
         adRepository.save(ad);
-        return patch;
     }
 }
