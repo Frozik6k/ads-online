@@ -36,8 +36,7 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/auth/**",
                                 "/login",
-                                "/register",
-                                "/ads"
+                                "/register"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                         .requestMatchers(

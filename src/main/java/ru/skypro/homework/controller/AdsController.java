@@ -1,6 +1,7 @@
 package ru.skypro.homework.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,16 +18,17 @@ import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.AdService;
 
 @Slf4j
-@RestController
-@RequestMapping("/ads")
-@RequiredArgsConstructor
 @CrossOrigin(
         value = "http://localhost:3000",
         allowCredentials = "true",
         allowedHeaders = {"Content-Type", "Authorization"},
+        exposedHeaders = HttpHeaders.AUTHORIZATION,
         methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS},
         maxAge = 3600
 )
+@RestController
+@RequestMapping("/ads")
+@RequiredArgsConstructor
 public class AdsController {
 
     final private AdService adService;
