@@ -275,4 +275,5 @@ public class UserServiceImplTest {
             assertEquals("Ошибка создания директории", exception.getCause().getMessage());
         }
     }
+
 }

@@ -1,7 +1,6 @@
 package ru.skypro.homework.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import ru.skypro.homework.dto.Role;
@@ -29,12 +28,10 @@ public class User {
 
     @Column(name = "first_name", nullable = false)
     @Size(max = 50)
-    @Pattern(regexp = "^[А-Яа-яA-Za-z\\-\\s]+$", message = "Имя может содержать только буквы, пробелы и дефис")
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
     @Size(max = 50)
-    @Pattern(regexp = "^[А-Яа-яA-Za-z\\-\\s]+$", message = "Фамилия может содержать только буквы, пробелы и дефис")
     private String lastName;
 
     private String phone;
@@ -50,14 +47,14 @@ public class User {
     private List<Ad> Ads;
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id;
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hashCode(id);
     }
 

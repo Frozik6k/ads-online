@@ -27,9 +27,9 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(
-        HttpServletRequest request, 
-        HttpServletResponse response,
-        AuthenticationException authException
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException authException
     ) throws IOException {
 
         ExceptionResponse errorResponse = new ExceptionResponse(

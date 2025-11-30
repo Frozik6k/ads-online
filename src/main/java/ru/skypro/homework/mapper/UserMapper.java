@@ -11,7 +11,6 @@ import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.user.UpdateUserDto;
 import ru.skypro.homework.dto.user.UserDto;
-import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.User;
 
 import java.util.Collection;

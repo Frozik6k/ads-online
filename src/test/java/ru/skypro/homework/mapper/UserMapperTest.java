@@ -59,7 +59,7 @@ public class UserMapperTest {
     @Test
     public void givenUser_whenGetUserDto_thenGetUserDto() {
         //then
-        assertEquals(userDto,  userMapper.toUserDto(user));
+        assertEquals(userDto, userMapper.toUserDto(user));
     }
 
     @Test

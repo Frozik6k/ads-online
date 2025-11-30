@@ -54,7 +54,7 @@ public class CommentsControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(commentsController)
                 .setControllerAdvice(GlobalExceptionHandler.class)
                 .setCustomArgumentResolvers(new HandlerMethodArgumentResolver() {
@@ -74,14 +74,14 @@ public class CommentsControllerTest {
 
     @Test
     void testGetComments() throws Exception {
-        CommentDto  commentDto = new CommentDto(
+        CommentDto commentDto = new CommentDto(
                 1L, "pathAvatar", "authorFirstName",
                 LocalDateTime.now(),
                 10L, "Text comment"
         );
 
         CommentsDto commentsDto = new CommentsDto(
-            1,
+                1,
                 List.of(commentDto)
         );
 
@@ -113,7 +113,7 @@ public class CommentsControllerTest {
     void testAddComment() throws Exception {
         CommentCreateOrUpdateRequest request = new CommentCreateOrUpdateRequest("Text comment");
         Long idAd = 2L;
-        CommentDto  commentDto = new CommentDto(
+        CommentDto commentDto = new CommentDto(
                 1L, "pathAvatar", "authorFirstName",
                 LocalDateTime.now(),
                 10L, "Text comment"
@@ -122,8 +122,8 @@ public class CommentsControllerTest {
         when(commentService.addComment(idAd, request)).thenReturn(commentDto);
 
         mockMvc.perform(post("/ads/2/comments")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.text").value("Text comment"));
     }
@@ -133,8 +133,8 @@ public class CommentsControllerTest {
         CommentCreateOrUpdateRequest request = new CommentCreateOrUpdateRequest("Text comment");
         when(commentService.addComment(2L, request)).thenThrow(new AdNotFoundException(2L));
         mockMvc.perform(post("/ads/2/comments")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
     }
 
@@ -156,17 +156,17 @@ public class CommentsControllerTest {
     void testUpdateComment() throws Exception {
         CommentCreateOrUpdateRequest request = new CommentCreateOrUpdateRequest("Text comment");
         Long idAd = 2L;
-        CommentDto  commentDto = new CommentDto(
+        CommentDto commentDto = new CommentDto(
                 1L, "pathAvatar", "authorFirstName",
                 LocalDateTime.now(),
                 10L, "Text comment"
         );
 
-        when(commentService.updateComment(idAd, commentDto.getId(),request)).thenReturn(commentDto);
+        when(commentService.updateComment(idAd, commentDto.getId(), request)).thenReturn(commentDto);
 
         mockMvc.perform(patch("/ads/2/comments/10")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.text").value("Text comment"));
 
@@ -178,8 +178,8 @@ public class CommentsControllerTest {
         when(commentService.updateComment(anyLong(), anyLong(), any(CommentCreateOrUpdateRequest.class))).thenThrow(new AdNotFoundException(2L));
 
         mockMvc.perform(patch("/ads/2/comments/10")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
     }
 

@@ -20,7 +20,7 @@ import ru.skypro.homework.service.UserService;
         value = "http://localhost:3000",
         allowCredentials = "true",
         allowedHeaders = {"Content-Type", "Authorization"},
-        methods = {RequestMethod.GET, RequestMethod.POST,  RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS},
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS},
         maxAge = 3600
 )
 @RestController
@@ -34,7 +34,7 @@ public class UserController {
 
     @PostMapping("/set_password")
     @Operation(summary = "Обновление пароля")
-    public ResponseEntity<Void> setPassword(@AuthenticationPrincipal SecurityUser user, @RequestBody NewPasswordRequest passwordData){
+    public ResponseEntity<Void> setPassword(@AuthenticationPrincipal SecurityUser user, @RequestBody NewPasswordRequest passwordData) {
         userService.setUserPassword(user.getDomainUser().getId(), passwordData);
         return ResponseEntity.ok().build();
     }
@@ -57,7 +57,7 @@ public class UserController {
 
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Обновление аватара пользователя")
-    public ResponseEntity<?> updateUserImage(@AuthenticationPrincipal SecurityUser user, @RequestParam("image")MultipartFile image){
+    public ResponseEntity<?> updateUserImage(@AuthenticationPrincipal SecurityUser user, @RequestParam("image") MultipartFile image) {
         userService.updateUserAvatar(user.getDomainUser().getId(), image);
         return ResponseEntity.ok().build();
     }

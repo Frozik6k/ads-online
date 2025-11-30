@@ -307,13 +307,12 @@ public class AdsControllerTest {
                 .when(adService).updateAdImage(anyLong(), any(MultipartFile.class));
 
         mockMvc.perform(multipart("/ads/1/image")
-                .file(mockMultipartFile)
-                .with(request -> {
-                    request.setMethod("PATCH");
-                    return request;
-                }))
+                        .file(mockMultipartFile)
+                        .with(request -> {
+                            request.setMethod("PATCH");
+                            return request;
+                        }))
                 .andExpect(status().isNotFound());
     }
-
 
 }

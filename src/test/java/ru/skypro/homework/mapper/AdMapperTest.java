@@ -118,4 +118,5 @@ public class AdMapperTest {
         Assertions.assertEquals(adsDtoOutput.getResults().size(), ads.size());
         Assertions.assertEquals(adsDtoOutput.getCount(), ads.size());
     }
+
 }

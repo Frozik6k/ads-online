@@ -75,8 +75,8 @@ public class AuthControllerTest {
         when(authService.register(register)).thenReturn(true);
 
         mockMvc.perform(post("/register")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(register)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(register)))
                 .andExpect(status().isCreated());
     }
 
@@ -92,4 +92,5 @@ public class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(register)))
                 .andExpect(status().isBadRequest());
     }
+
 }

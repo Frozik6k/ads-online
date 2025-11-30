@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     private String avatarUploadPath;
 
     @Override
-    @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#userId, authentication.name)")
+    @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#userId, authentication.name)")
     public void setUserPassword(Long userId, NewPasswordRequest passwordData) {
         User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
 
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getByUserName(String username) {
         return repository.findByUsername(username).orElseThrow(
-            () -> new UserNotFoundException("Пользователь не найден")
+                () -> new UserNotFoundException("Пользователь не найден")
         );
     }
 

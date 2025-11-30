@@ -45,7 +45,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    @PreAuthorize("hasRole(Role.USER) or hasRole(Role.ADMIN)")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public AdResponseDto getAd(long id) {
         Ad ad = adRepository.findById(id)
                 .orElseThrow(() -> new AdNotFoundException(id));
@@ -53,15 +53,15 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#id, authentication.name)")
+    @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#id, authentication.name)")
     public void deleteAd(long id) {
         adRepository.findById(id)
-                        .orElseThrow(() -> new AdNotFoundException(id));
+                .orElseThrow(() -> new AdNotFoundException(id));
         adRepository.deleteById(id);
     }
 
     @Override
-    @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#id, authentication.name)")
+    @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#id, authentication.name)")
     public AdDto updateAd(long id, AdRequestDto req) {
         Ad ad = adMapper.fromAdRequestDtoToAd(req);
         adRepository.findById(id)
@@ -72,13 +72,13 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    @PreAuthorize("hasRole(Role.USER) or hasRole(Role.ADMIN)")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public AdsDto getCurrentUserAds(long id) {
         return adMapper.fromAdsToAdsDto(adRepository.findAllByUserId(id));
     }
 
     @Override
-    @PreAuthorize("hasRole(Role.ADMIN) or @security.isAdOwner(#id, authentication.name)")
+    @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#id, authentication.name)")
     public void updateAdImage(long id, MultipartFile file) {
         Ad ad = adRepository.findById(id)
                 .orElseThrow(() -> new AdNotFoundException(id));

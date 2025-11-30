@@ -46,7 +46,6 @@ public class CommentMapperTest {
         commentDto.setIdAuthor(7);
 
 
-
     }
 
     @Test
@@ -78,4 +77,5 @@ public class CommentMapperTest {
         assertEquals(commentDto.getCreatedAt(), commentDtoOutput.getCreatedAt());
 
     }
+
 }

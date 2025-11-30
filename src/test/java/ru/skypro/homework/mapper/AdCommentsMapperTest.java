@@ -3,8 +3,6 @@ package ru.skypro.homework.mapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -79,4 +77,5 @@ public class AdCommentsMapperTest {
         assertEquals(commentsDto.getCount(), commentsDtoOutput.getCount());
         assertEquals(commentsDto.getResults().size(), commentsDtoOutput.getResults().size());
     }
+
 }

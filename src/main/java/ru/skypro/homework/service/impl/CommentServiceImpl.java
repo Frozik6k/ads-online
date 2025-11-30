@@ -3,7 +3,6 @@ package ru.skypro.homework.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.comments.CommentCreateOrUpdateRequest;
 import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.CommentsDto;
@@ -45,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @PreAuthorize("hasRole(Role.ADMIN) or @security.isCommentOwner(#idComment, authentication.name)")
+    @PreAuthorize("hasRole('ADMIN') or @security.isCommentOwner(#idComment, authentication.name)")
     public void deleteComment(Long idAd, Long idComment) {
         adRepository.findById(idAd)
                 .orElseThrow(() -> new AdNotFoundException(idAd));
@@ -54,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @PreAuthorize("hasRole(Role.ADMIN) or @security.isCommentOwner(#idComment, authentication.name)")
+    @PreAuthorize("hasRole('ADMIN') or @security.isCommentOwner(#idComment, authentication.name)")
     public CommentDto updateComment(Long idAd, Long idComment, CommentCreateOrUpdateRequest request) {
         adRepository.findById(idAd)
                 .orElseThrow(() -> new AdNotFoundException(idAd));
