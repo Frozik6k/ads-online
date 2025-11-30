@@ -19,6 +19,7 @@ public class StorageFile {
 
     public String download(MultipartFile multipartFile) {
         try {
+            log.info(this.getClass() + "-> download start");
             Path uploadDir = Paths.get(path);
             if (!Files.exists(uploadDir)) {
                 Files.createDirectories(uploadDir);

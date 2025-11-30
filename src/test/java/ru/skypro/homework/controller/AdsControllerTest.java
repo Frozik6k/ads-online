@@ -128,8 +128,13 @@ public class AdsControllerTest {
                 "title"
         );
 
-        when(adService.createAd(any(AdRequestDto.class), any(MultipartFile.class)))
+        User user = new User();
+        user.setId(1L);
+
+        when(adService.createAd(any(AdRequestDto.class), any(MultipartFile.class), anyLong()))
                 .thenReturn(adDto);
+
+        when(securityUser.getDomainUser()).thenReturn(user);
 
         mockMvc.perform(multipart("/ads")
                         .file(adPart)

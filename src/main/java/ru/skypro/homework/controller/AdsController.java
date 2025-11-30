@@ -1,5 +1,6 @@
 package ru.skypro.homework.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.AdService;
 
+@Slf4j
 @RestController
 @RequestMapping("/ads")
 @RequiredArgsConstructor
@@ -36,8 +38,16 @@ public class AdsController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<AdDto> createAd(@RequestPart("properties") AdRequestDto req, MultipartFile image) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(adService.createAd(req, image));
+    public ResponseEntity<AdDto> createAd(
+            @AuthenticationPrincipal SecurityUser securityUser,
+            @RequestPart("properties") AdRequestDto req,
+            MultipartFile image) {
+
+        long userId = securityUser.getDomainUser().getId();
+
+        log.info(this.getClass() + "-> createdAd");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(adService.createAd(req, image, userId));
     }
 
     @GetMapping("/{id}")

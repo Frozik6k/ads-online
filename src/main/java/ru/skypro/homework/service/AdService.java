@@ -9,7 +9,7 @@ import ru.skypro.homework.dto.ads.AdsDto;
 public interface AdService {
     AdsDto getAllAds();
 
-    AdDto createAd(AdRequestDto req, MultipartFile file);
+    AdDto createAd(AdRequestDto req, MultipartFile file, long userId);
 
     AdResponseDto getAd(long id);
 

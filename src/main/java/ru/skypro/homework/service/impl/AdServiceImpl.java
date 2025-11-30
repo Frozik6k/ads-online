@@ -11,9 +11,12 @@ import ru.skypro.homework.dto.ads.AdRequestDto;
 import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.ads.AdsDto;
 import ru.skypro.homework.exception.AdNotFoundException;
+import ru.skypro.homework.exception.UserNotFoundException;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.Ad;
+import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.AdRepository;
+import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.UserService;
 
@@ -26,7 +29,7 @@ public class AdServiceImpl implements AdService {
     final private AdRepository adRepository;
     final private AdMapper adMapper;
     final private StorageFile storageFile;
-    final private UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     @PreAuthorize("permitAll()")
@@ -37,9 +40,13 @@ public class AdServiceImpl implements AdService {
 
     @Override
     @PreAuthorize("isAuthenticated()")
-    public AdDto createAd(AdRequestDto req, MultipartFile image) {
+    public AdDto createAd(AdRequestDto req, MultipartFile image, long userId) {
         Ad ad = adMapper.fromAdRequestDtoToAd(req);
         ad.setImage(storageFile.download(image));
+
+        User user = new User();
+        user.setId(userId);
+        ad.setUser(user);
         adRepository.save(ad);
         return adMapper.toAdDto(ad);
     }
