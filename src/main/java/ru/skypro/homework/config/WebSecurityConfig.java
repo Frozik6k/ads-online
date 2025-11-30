@@ -16,12 +16,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.security.AuthEntryPoint;
 import ru.skypro.homework.security.SecurityFilter;
 
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
     private final SecurityFilter filter;
@@ -39,7 +41,7 @@ public class WebSecurityConfig {
                             "/login",
                             "/register"
                     ).permitAll()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                     .requestMatchers(
                         "/docs/**",
                         "/v3/api-docs/**",

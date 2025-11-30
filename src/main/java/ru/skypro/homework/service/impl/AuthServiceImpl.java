@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.mapper.UserMapper;
 import ru.skypro.homework.repository.UserRepository;
+import ru.skypro.homework.security.JwtUtil;
 import ru.skypro.homework.service.AuthService;
 
 @Service
@@ -21,14 +22,18 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder encoder;
+    private final JwtUtil jwtUtil;
 
     @Override
-    public boolean login(String userName, String password) {
+    public String login(String userName, String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         if (!userDetails.getUsername().equals(userName)) {
-            return false;
+            return null;
         }
-        return encoder.matches(password, userDetails.getPassword());
+        if (encoder.matches(password, userDetails.getPassword())) {
+            return jwtUtil.generateToken(userDetails);
+        }
+        return null;
     }
 
     @Override

@@ -45,7 +45,7 @@ public class AuthControllerTest {
         login.setPassword("password");
         login.setUsername("username");
 
-        when(authService.login(anyString(), anyString())).thenReturn(true);
+        when(authService.login(anyString(), anyString())).thenReturn("token");
 
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ public class AuthControllerTest {
         login.setPassword("password");
         login.setUsername("username");
 
-        when(authService.login(anyString(), anyString())).thenReturn(false);
+        when(authService.login(anyString(), anyString())).thenReturn(null);
 
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)

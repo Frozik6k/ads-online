@@ -8,4 +8,6 @@ import ru.skypro.homework.model.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     boolean existsByIdAndAdId(Long id, Long adId);
+
+    boolean existsByIdAndAd_UserId(Long commentId, Long userId);
 }
