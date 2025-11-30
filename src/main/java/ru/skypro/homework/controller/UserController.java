@@ -20,7 +20,7 @@ import ru.skypro.homework.service.UserService;
         value = "http://localhost:3000",
         allowCredentials = "true",
         allowedHeaders = {"Content-Type", "Authorization"},
-        methods = {RequestMethod.GET, RequestMethod.POST,  RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE},
+        methods = {RequestMethod.GET, RequestMethod.POST,  RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS},
         maxAge = 3600
 )
 @RestController

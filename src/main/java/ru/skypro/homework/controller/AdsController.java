@@ -12,7 +12,6 @@ import ru.skypro.homework.dto.ads.AdsDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.AdService;
 
@@ -23,7 +22,7 @@ import ru.skypro.homework.service.AdService;
     value = "http://localhost:3000",
     allowCredentials = "true",
     allowedHeaders = {"Content-Type", "Authorization"},
-    methods = {RequestMethod.GET, RequestMethod.POST,  RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE},
+    methods = {RequestMethod.GET, RequestMethod.POST,  RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS},
     maxAge = 3600
 )
 public class AdsController {

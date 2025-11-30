@@ -15,7 +15,8 @@ import ru.skypro.homework.service.AuthService;
         value = "http://localhost:3000",
         allowCredentials = "true",
         allowedHeaders = {"Content-Type", "Authorization"},
-        methods = {RequestMethod.POST},
+        exposedHeaders = HttpHeaders.AUTHORIZATION,
+        methods = {RequestMethod.POST, RequestMethod.OPTIONS},
         maxAge = 3600
 )
 @RestController
@@ -26,12 +27,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Login login) {
-        log.info("Авторизация пользователя: " + login.getUsername());
-        String token = authService.login(login.getUsername(), login.getPassword());
-        if (token != null) {
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                    .build();
+        boolean success = authService.login(login.getUsername(), login.getPassword());
+        if (success) {
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

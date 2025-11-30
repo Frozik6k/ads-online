@@ -13,20 +13,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.security.AuthEntryPoint;
-import ru.skypro.homework.security.SecurityFilter;
 
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-
-    private final SecurityFilter filter;
 
     private final AuthEntryPoint entryPoint;
     
@@ -35,6 +31,7 @@ public class WebSecurityConfig {
         return http.csrf(CsrfConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers(
                             "/auth/**",
@@ -51,7 +48,6 @@ public class WebSecurityConfig {
                     .anyRequest().authenticated()
                 )
                 .exceptionHandling(handling -> handling.authenticationEntryPoint(entryPoint))
-                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
