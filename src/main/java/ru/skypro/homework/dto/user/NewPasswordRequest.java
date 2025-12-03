@@ -7,20 +7,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "Обновление пароля пользователя")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Обновление пароля пользователя")
 public class NewPasswordRequest {
 
+    @Schema(description = "Текущий пароль")
     @NotBlank
     @Size(min = 8, max = 16, message = "Пароль должен содержать от 8 до 16 символов")
-    @Schema(description = "Текущий пароль")
     private String currentPassword;
 
+    @Schema(description = "Новый пароль")
     @NotBlank
     @Size(min = 8, max = 16, message = "Пароль должен содержать от 8 до 16 символов")
-    @Schema(description = "Новый пароль")
     private String newPassword;
 
 }

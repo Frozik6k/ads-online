@@ -1,0 +1,104 @@
+package ru.skypro.homework.service.impl;
+
+import lombok.RequiredArgsConstructor;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.ads.AdDto;
+import ru.skypro.homework.dto.ads.AdRequestDto;
+import ru.skypro.homework.dto.ads.AdResponseDto;
+import ru.skypro.homework.dto.ads.AdsDto;
+import ru.skypro.homework.exception.AdNotFoundException;
+import ru.skypro.homework.mapper.AdMapper;
+import ru.skypro.homework.model.Ad;
+import ru.skypro.homework.model.User;
+import ru.skypro.homework.repository.AdRepository;
+import ru.skypro.homework.service.AdService;
+import ru.skypro.homework.service.ImageService;
+
+import java.util.List;
+import java.util.UUID;
+
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class AdServiceImpl implements AdService {
+
+    final private AdRepository adRepository;
+    final private AdMapper adMapper;
+    final private ImageService imageService;
+
+    @Override
+    @PreAuthorize("permitAll()")
+    public AdsDto getAllAds() {
+        List<Ad> ads = adRepository.findAll();
+        return adMapper.fromAdsToAdsDto(ads);
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public AdDto createAd(AdRequestDto req, MultipartFile image, long userId) {
+        Ad ad = adMapper.fromAdRequestDtoToAd(req);
+        ad.setImage(
+                imageService.addImage(image)
+        );
+
+        User user = new User();
+        user.setId(userId);
+        ad.setUser(user);
+        adRepository.save(ad);
+        return adMapper.toAdDto(ad);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public AdResponseDto getAd(long id) {
+        Ad ad = adRepository.findById(id)
+                .orElseThrow(() -> new AdNotFoundException(id));
+        return adMapper.fromAdToAdResponseDto(ad);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#id, authentication.name)")
+    public void deleteAd(long id) {
+        adRepository.findById(id)
+                .orElseThrow(() -> new AdNotFoundException(id));
+        adRepository.deleteById(id);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#id, authentication.name)")
+    public AdDto updateAd(long id, AdRequestDto req) {
+        Ad adCurrent = adRepository.findById(id)
+                .orElseThrow(() -> new AdNotFoundException(id));
+        adMapper.fromAdRequestDtoToAd(req);
+        Ad adNew = adMapper.fromAdRequestDtoToAd(adCurrent, req);
+        adRepository.save(adNew);
+        return adMapper.toAdDto(adNew);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public AdsDto getCurrentUserAds(long id) {
+        return adMapper.fromAdsToAdsDto(adRepository.findAllByUserId(id));
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#id, authentication.name)")
+    public void updateAdImage(long id, MultipartFile file) {
+
+        Ad ad = adRepository.findById(id)
+                .orElseThrow(() -> new AdNotFoundException(id));
+
+        if (ad.getImage() == null) {
+            ad.setImage(UUID.randomUUID().toString());
+        }
+
+        imageService.updateImage(ad.getImage(), file);
+
+        adRepository.save(ad);
+
+    }
+}

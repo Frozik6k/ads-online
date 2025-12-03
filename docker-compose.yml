@@ -22,11 +22,14 @@ services:
       POSTGRES_DB: ads_db
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
+      UPLOAD_PATH: /uploads
     depends_on:
       postgres:
         condition: service_started
     ports:
       - "8080:8080"
+    volumes:
+      - ./uploads:/uploads
     networks:
       - network_app
 

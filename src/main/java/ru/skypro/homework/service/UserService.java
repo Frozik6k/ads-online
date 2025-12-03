@@ -12,7 +12,7 @@ public interface UserService {
 
     UserDto getUser(Long userId);
 
-    UserDto updateUser(Long userId, UpdateUserDto updateUserDto);
+    UpdateUserDto updateUser(Long userId, UpdateUserDto updateUserDto);
 
     void updateUserAvatar(Long userId, MultipartFile avatarFile);
 

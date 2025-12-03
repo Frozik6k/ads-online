@@ -8,10 +8,10 @@ import ru.skypro.homework.dto.Role;
 
 import java.util.Objects;
 
+@Schema(description = "Пользователь")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Пользователь")
 public class UserDto {
 
     @Schema(description = "Id пользователя")

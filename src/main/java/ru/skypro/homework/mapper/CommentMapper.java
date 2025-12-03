@@ -9,6 +9,10 @@ import ru.skypro.homework.model.Comment;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
+
+    @Mapping(target = "idAuthor", expression = "java(entity.getAd().getUser().getId())")
+    @Mapping(target = "authorImage", expression = "java(\"/images/\" + entity.getAd().getUser().getImage())")
+    @Mapping(target = "authorFirstName", expression = "java(entity.getAd().getUser().getFirstName())")
     CommentDto toCommentDto(Comment entity);
 
     @Mapping(target = "id", ignore = true)

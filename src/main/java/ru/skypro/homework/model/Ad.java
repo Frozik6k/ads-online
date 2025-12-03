@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,11 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -32,21 +28,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Ad {
-    @Id 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank @Size(min = 10, max = 1000) 
+    @NotBlank
+    @Size(min = 10, max = 1000)
     private String description;
-    
+
     @NotBlank
     private String image;
-    
-    @PositiveOrZero 
+
+    @PositiveOrZero
     @NotNull(message = "Цена обязательна")
-    private BigDecimal price; 
-    
-    @NotBlank @Size(min = 3, max = 100) 
+    private BigDecimal price;
+
+    @NotBlank
+    @Size(min = 3, max = 100)
     private String title;
 
     @OneToMany(mappedBy = "ad", cascade = CascadeType.ALL)
