@@ -11,7 +11,6 @@ import ru.skypro.homework.dto.ads.AdRequestDto;
 import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.ads.AdsDto;
 import ru.skypro.homework.exception.AdNotFoundException;
-import ru.skypro.homework.exception.ImageAccessErrorException;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.User;
@@ -19,7 +18,6 @@ import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.ImageService;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -75,7 +73,7 @@ public class AdServiceImpl implements AdService {
     public AdDto updateAd(long id, AdRequestDto req) {
         Ad adCurrent = adRepository.findById(id)
                 .orElseThrow(() -> new AdNotFoundException(id));
-                adMapper.fromAdRequestDtoToAd(req);
+        adMapper.fromAdRequestDtoToAd(req);
         Ad adNew = adMapper.fromAdRequestDtoToAd(adCurrent, req);
         adRepository.save(adNew);
         return adMapper.toAdDto(adNew);

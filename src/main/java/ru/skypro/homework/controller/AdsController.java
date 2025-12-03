@@ -2,7 +2,6 @@ package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,17 +41,13 @@ public class AdsController {
 
         long userId = securityUser.getDomainUser().getId();
 
-        log.info(this.getClass() + "-> createdAd");
-
         return ResponseEntity.status(HttpStatus.CREATED).body(adService.createAd(req, image, userId));
     }
 
     @Operation(summary = "Получения объявления по id")
     @GetMapping("/{id}")
     public AdResponseDto getAd(@PathVariable long id) {
-        AdResponseDto adResponseDto = adService.getAd(id);
-        log.info(this.getClass() + "-> getAd -> getImage -> {}", adResponseDto.getImage());
-        return adResponseDto;
+        return adService.getAd(id);
     }
 
     @Operation(summary = "Удаление объявления с id")
