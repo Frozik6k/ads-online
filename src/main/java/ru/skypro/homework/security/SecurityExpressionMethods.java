@@ -1,6 +1,7 @@
 package ru.skypro.homework.security;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import ru.skypro.homework.model.User;
@@ -8,6 +9,7 @@ import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.UserRepository;
 
+@Slf4j
 @Component("security")
 @RequiredArgsConstructor
 public class SecurityExpressionMethods {

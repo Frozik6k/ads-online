@@ -1,5 +1,6 @@
 package ru.skypro.homework.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpHeaders;
@@ -10,20 +11,13 @@ import ru.skypro.homework.dto.Login;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.service.AuthService;
 
-@CrossOrigin(
-        value = "http://localhost:3000",
-        allowCredentials = "true",
-        allowedHeaders = {"Content-Type", "Authorization"},
-        exposedHeaders = HttpHeaders.AUTHORIZATION,
-        methods = {RequestMethod.POST, RequestMethod.OPTIONS},
-        maxAge = 3600
-)
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
+    @Operation(summary = "Авторизация пользователя")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Login login) {
         boolean success = authService.login(login.getUsername(), login.getPassword());
@@ -34,6 +28,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Регистрация пользователя")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Register register) {
 

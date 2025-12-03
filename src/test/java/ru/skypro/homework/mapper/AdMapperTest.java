@@ -43,7 +43,7 @@ public class AdMapperTest {
         );
         adDto = new AdDto(
                 5,
-                "pathAd",
+                "/images/pathAd",
                 4,
                 BigDecimal.valueOf(100),
                 "title"
@@ -55,7 +55,7 @@ public class AdMapperTest {
                 "lastName",
                 "description",
                 "email",
-                "pathAd",
+                "/images/pathAd",
                 "+79999999999",
                 BigDecimal.valueOf(100),
                 "title"
@@ -75,7 +75,7 @@ public class AdMapperTest {
         Assertions.assertEquals(adResponseOutput.getDescription(), ad.getDescription());
         Assertions.assertEquals(adResponseOutput.getTitle(), ad.getTitle());
         Assertions.assertEquals(adResponseOutput.getPrice(), ad.getPrice());
-        Assertions.assertEquals(adResponseOutput.getImage(), ad.getImage());
+        Assertions.assertEquals(adResponseOutput.getImage(), "/images/" + ad.getImage());
         Assertions.assertEquals(adResponseOutput.getEmail(), ad.getUser().getUsername());
         Assertions.assertEquals(adResponseOutput.getPhone(), ad.getUser().getPhone());
         Assertions.assertEquals(adResponseOutput.getAuthorFirstName(), ad.getUser().getFirstName());
@@ -89,10 +89,22 @@ public class AdMapperTest {
 
         //then
         Assertions.assertEquals(adDtoOutput.getPk(), ad.getId());
-        Assertions.assertEquals(adDtoOutput.getImage(), ad.getImage());
+        Assertions.assertEquals(adDtoOutput.getImage(), "/images/" + ad.getImage());
         Assertions.assertEquals(adDtoOutput.getTitle(), ad.getTitle());
         Assertions.assertEquals(adDtoOutput.getPrice(), ad.getPrice());
         Assertions.assertEquals(adDtoOutput.getAuthor(), ad.getUser().getId());
+    }
+
+    @Test
+    public void givenAdRequestDtoAndAd_whenMapping_thenGetAdSuccess() {
+        //when
+        Ad adOutput = adMapper.fromAdRequestDtoToAd(ad, adRequestDto);
+
+        //then
+        Assertions.assertEquals(adRequestDto.getDescription(), adOutput.getDescription());
+        Assertions.assertEquals(adRequestDto.getTitle(), adOutput.getTitle());
+        Assertions.assertEquals(adRequestDto.getPrice(), adOutput.getPrice());
+        Assertions.assertEquals(ad.getId(), adOutput.getId());
     }
 
     @Test

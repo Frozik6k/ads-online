@@ -1,7 +1,6 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,13 +13,10 @@ import ru.skypro.homework.exception.UserNotFoundException;
 import ru.skypro.homework.mapper.UserMapper;
 import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.UserRepository;
+import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
-
-    @Value("${avatar.upload.path}")
-    private String avatarUploadPath;
+    private final ImageService imageService;
 
     @Override
     @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#userId, authentication.name)")
@@ -79,30 +73,13 @@ public class UserServiceImpl implements UserService {
 
         User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
 
-        if (avatarFile.isEmpty()) {
-            throw new IllegalArgumentException("Аватар не может быть пустым!");
+        if (user.getImage() == null) {
+            user.setImage(UUID.randomUUID().toString());
         }
 
-        //Генерация имени файла
-        String fileName = avatarFile.getOriginalFilename();
-        String fileExtension = fileName != null ? fileName.substring(fileName.lastIndexOf(".")) : ".jpg";
-        String newFineName = "avatar_" + userId + "_" + System.currentTimeMillis() + fileExtension;
+        imageService.updateImage(user.getImage(), avatarFile);
 
-        Path filePath = Path.of(avatarUploadPath, newFineName);
-
-        try {
-            Files.createDirectories(filePath.getParent());
-
-            try (InputStream inputStream = avatarFile.getInputStream()) {
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            }
-
-            user.setImage(filePath.toString());
-            repository.save(user);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Ошибка при обновлении аватара", e);
-        }
+        repository.save(user);
 
     }
 

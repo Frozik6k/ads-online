@@ -34,18 +34,19 @@ public class AdCommentsMapperTest {
         commentsDto = new CommentsDto();
         commentsDto.setCount(3);
         commentsDto.setResults(List.of(
-                new CommentDto(3, "path", "User", LocalDateTime.of(2025, 5, 3, 5, 6), 4, "Comment4"),
-                new CommentDto(3, "path", "User", LocalDateTime.of(2025, 5, 3, 5, 7), 5, "Comment5"),
-                new CommentDto(3, "path", "User", LocalDateTime.of(2025, 5, 3, 5, 8), 6, "Comment6")
+                new CommentDto(3, "/images/path", "firstname", LocalDateTime.of(2025, 5, 3, 5, 6), 4, "Comment4"),
+                new CommentDto(3, "/images/path", "firstname", LocalDateTime.of(2025, 5, 3, 5, 7), 5, "Comment5"),
+                new CommentDto(3, "/images/path", "firstname", LocalDateTime.of(2025, 5, 3, 5, 8), 6, "Comment6")
         ));
         ad = new Ad();
         ad.setId(1L);
+        ad.setUser(new User(3, "User", "11111111", "firstname", "lastname", "+7999999999", Role.USER, "path", null));
         ad.setComments(List.of(
                 new Comment(4, LocalDateTime.of(2025, 5, 3, 5, 6), "Comment4", ad),
                 new Comment(5, LocalDateTime.of(2025, 5, 3, 5, 7), "Comment5", ad),
                 new Comment(6, LocalDateTime.of(2025, 5, 3, 5, 8), "Comment6", ad)
         ));
-        ad.setUser(new User(3, "User", "11111111", "User", "lastname", "+7999999999", Role.USER, "path", null));
+
 
         adCommentsMapper = new AdCommentsMapperImpl(commentMapper);
     }
@@ -55,7 +56,7 @@ public class AdCommentsMapperTest {
 
         //given
         Comment comment = new Comment(4, LocalDateTime.of(2025, 5, 3, 5, 6), "Comment4", ad);
-        CommentDto commentDto = new CommentDto(3, "path", "User", LocalDateTime.of(2025, 5, 3, 5, 6), 4, "Comment4");
+        CommentDto commentDto = new CommentDto(3, "/images/path", "User", LocalDateTime.of(2025, 5, 3, 5, 6), 4, "Comment4");
 
         //when
         Mockito.when(commentMapper.toCommentDto(comment)).thenReturn(commentDto);
@@ -65,6 +66,7 @@ public class AdCommentsMapperTest {
 
         //then
         assertEquals(commentsDtosOutput.size(), commentsDto.getResults().size());
+        assertEquals(commentsDtosOutput.get(0).getAuthorImage(), commentDto.getAuthorImage());
 
     }
 

@@ -8,10 +8,10 @@ import ru.skypro.homework.dto.Role;
 
 import java.util.Objects;
 
+@Schema(description = "Пользователь")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Пользователь")
 public class UserDto {
 
     @Schema(description = "Id пользователя")
@@ -35,15 +35,4 @@ public class UserDto {
     @Schema(description = "Аватар пользователя")
     private String image;
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        UserDto userDto = (UserDto) o;
-        return id == userDto.id && Objects.equals(email, userDto.email) && Objects.equals(firstName, userDto.firstName) && Objects.equals(lastName, userDto.lastName) && Objects.equals(phone, userDto.phone) && role == userDto.role && Objects.equals(image, userDto.image);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, phone, role, image);
-    }
 }

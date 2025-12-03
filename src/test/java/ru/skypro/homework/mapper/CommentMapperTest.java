@@ -41,7 +41,7 @@ public class CommentMapperTest {
         commentDto.setCreatedAt(LocalDateTime.of(2025, 10, 21, 5, 50));
         commentDto.setText("Comment");
         commentDto.setId(5);
-        commentDto.setAuthorImage("path");
+        commentDto.setAuthorImage("/images/path");
         commentDto.setAuthorFirstName("firstName");
         commentDto.setIdAuthor(7);
 

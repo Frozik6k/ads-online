@@ -1,5 +1,6 @@
 package ru.skypro.homework.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +19,6 @@ import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.AdService;
 
 @Slf4j
-@CrossOrigin(
-        value = "http://localhost:3000",
-        allowCredentials = "true",
-        allowedHeaders = {"Content-Type", "Authorization"},
-        exposedHeaders = HttpHeaders.AUTHORIZATION,
-        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS},
-        maxAge = 3600
-)
 @RestController
 @RequestMapping("/ads")
 @RequiredArgsConstructor
@@ -33,11 +26,13 @@ public class AdsController {
 
     final private AdService adService;
 
+    @Operation(summary = "Получение всех объявлений")
     @GetMapping
     public AdsDto getAllAds() {
         return adService.getAllAds();
     }
 
+    @Operation(summary = "Создание нового объявления")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AdDto> createAd(
@@ -52,28 +47,33 @@ public class AdsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(adService.createAd(req, image, userId));
     }
 
+    @Operation(summary = "Получения объявления по id")
     @GetMapping("/{id}")
     public AdResponseDto getAd(@PathVariable long id) {
         return adService.getAd(id);
     }
 
+    @Operation(summary = "Удаление объявления с id")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAd(@PathVariable long id) {
         adService.deleteAd(id);
     }
 
+    @Operation(summary = "Обновление данных объявления с id")
     @PatchMapping("/{id}")
     public AdDto updateAd(@PathVariable long id, @RequestBody AdRequestDto req) {
         return adService.updateAd(id, req);
     }
 
+    @Operation(summary = "Получение объявлений текущего пользователя")
     @GetMapping("/me")
     public AdsDto getCurrentUserAds(@AuthenticationPrincipal SecurityUser user) {
-        Long id = user.getDomainUser().getId();
+        long id = user.getDomainUser().getId();
         return adService.getCurrentUserAds(id);
     }
 
+    @Operation(summary = "Обновление картинки объявления")
     @PatchMapping("/{id}/image")
     public void updateAdImage(@PathVariable long id, MultipartFile image) {
         adService.updateAdImage(id, image);

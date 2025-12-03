@@ -11,13 +11,6 @@ import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.CommentsDto;
 import ru.skypro.homework.service.CommentService;
 
-@CrossOrigin(
-        value = "http://localhost:3000",
-        allowCredentials = "true",
-        allowedHeaders = {"Content-Type", "Authorization"},
-        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS},
-        maxAge = 3600
-)
 @RestController
 @RequestMapping("/ads")
 @Tag(name = "Комментарии")
@@ -40,9 +33,8 @@ public class CommentsController {
 
     @DeleteMapping("/{adId}/comments/{commentId}")
     @Operation(summary = "Удалить комментарий из объявления")
-    public ResponseEntity deleteComment(@PathVariable("adId") Long idAd, @PathVariable("commentId") Long idComment) {
+    public void deleteComment(@PathVariable("adId") Long idAd, @PathVariable("commentId") Long idComment) {
         commentService.deleteComment(idAd, idComment);
-        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{adId}/comments/{commentId}")

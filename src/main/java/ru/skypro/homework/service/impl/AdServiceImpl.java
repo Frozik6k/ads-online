@@ -2,34 +2,34 @@ package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.download.StorageFile;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.AdRequestDto;
 import ru.skypro.homework.dto.ads.AdResponseDto;
 import ru.skypro.homework.dto.ads.AdsDto;
 import ru.skypro.homework.exception.AdNotFoundException;
-import ru.skypro.homework.exception.UserNotFoundException;
+import ru.skypro.homework.exception.ImageAccessErrorException;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.AdRepository;
-import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.AdService;
-import ru.skypro.homework.service.UserService;
+import ru.skypro.homework.service.ImageService;
 
+import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AdServiceImpl implements AdService {
 
     final private AdRepository adRepository;
     final private AdMapper adMapper;
-    final private StorageFile storageFile;
-    private final UserRepository userRepository;
+    final private ImageService imageService;
 
     @Override
     @PreAuthorize("permitAll()")
@@ -42,7 +42,9 @@ public class AdServiceImpl implements AdService {
     @PreAuthorize("isAuthenticated()")
     public AdDto createAd(AdRequestDto req, MultipartFile image, long userId) {
         Ad ad = adMapper.fromAdRequestDtoToAd(req);
-        ad.setImage(storageFile.download(image));
+        ad.setImage(
+                imageService.addImage(image)
+        );
 
         User user = new User();
         user.setId(userId);
@@ -70,12 +72,12 @@ public class AdServiceImpl implements AdService {
     @Override
     @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#id, authentication.name)")
     public AdDto updateAd(long id, AdRequestDto req) {
-        Ad ad = adMapper.fromAdRequestDtoToAd(req);
-        adRepository.findById(id)
+        Ad adCurrent = adRepository.findById(id)
                 .orElseThrow(() -> new AdNotFoundException(id));
-        ad.setId(id);
-        adRepository.save(ad);
-        return adMapper.toAdDto(ad);
+                adMapper.fromAdRequestDtoToAd(req);
+        Ad adNew = adMapper.fromAdRequestDtoToAd(adCurrent, req);
+        adRepository.save(adNew);
+        return adMapper.toAdDto(adNew);
     }
 
     @Override
@@ -89,8 +91,9 @@ public class AdServiceImpl implements AdService {
     public void updateAdImage(long id, MultipartFile file) {
         Ad ad = adRepository.findById(id)
                 .orElseThrow(() -> new AdNotFoundException(id));
-        String patch = storageFile.download(file);
-        ad.setImage(patch);
-        adRepository.save(ad);
+
+        String uuid = ad.getImage();
+
+        imageService.updateImage(uuid, file);
     }
 }

@@ -15,8 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.security.AuthEntryPoint;
+
+import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -36,7 +41,8 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/auth/**",
                                 "/login",
-                                "/register"
+                                "/register",
+                                "/ads"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                         .requestMatchers(
@@ -60,5 +66,20 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(List.of("Authorization", "X-XSRF-TOKEN"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 
 }

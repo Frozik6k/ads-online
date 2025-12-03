@@ -16,13 +16,6 @@ import ru.skypro.homework.model.User;
 import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.UserService;
 
-@CrossOrigin(
-        value = "http://localhost:3000",
-        allowCredentials = "true",
-        allowedHeaders = {"Content-Type", "Authorization"},
-        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS},
-        maxAge = 3600
-)
 @RestController
 @RequestMapping("/users")
 @Tag(name = "Пользователи")
@@ -43,7 +36,6 @@ public class UserController {
     @Operation(summary = "Получить данные пользователя")
     public UserDto getUser(@AuthenticationPrincipal SecurityUser user) {
         User currentUser = user.getDomainUser();
-        log.info("Получение информации о пользователе: " + currentUser.getUsername());
         return userService.getUser(currentUser.getId());
     }
 
@@ -51,7 +43,6 @@ public class UserController {
     @Operation(summary = "Обновление данных пользователя")
     public UpdateUserDto updateUser(@AuthenticationPrincipal SecurityUser user, @RequestBody UpdateUserDto updateUserData) {
         User currentUser = user.getDomainUser();
-        log.info("Обновление информации о пользователе: " + currentUser.getUsername());
         return userService.updateUser(currentUser.getId(), updateUserData);
     }
 

@@ -4,10 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.skypro.homework.exception.AdNotFoundException;
-import ru.skypro.homework.exception.CommentNotFoundException;
-import ru.skypro.homework.exception.InvalidPasswordException;
-import ru.skypro.homework.exception.UserNotFoundException;
+import ru.skypro.homework.exception.*;
 
 import java.util.Map;
 
@@ -31,6 +28,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CommentNotFoundException.class)
     public ResponseEntity<?> handleCommentNotFound(CommentNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", exception.getMessage()));
+    }
+
+    @ExceptionHandler(ImageAccessErrorException.class)
+    public ResponseEntity<?> handleImageAccessError(ImageAccessErrorException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", exception.getMessage()));
     }
 }

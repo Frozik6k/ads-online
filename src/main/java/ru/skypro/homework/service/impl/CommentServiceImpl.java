@@ -50,6 +50,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new AdNotFoundException(idAd));
         Comment comment = commentRepository.findById(idComment)
                 .orElseThrow(() -> new CommentNotFoundException(idComment));
+        commentRepository.delete(comment);
     }
 
     @Override

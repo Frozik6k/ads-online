@@ -19,11 +19,18 @@ public interface AdMapper {
     @Mapping(target = "phone", source = "user.phone")
     @Mapping(target = "authorFirstName", source = "user.firstName")
     @Mapping(target = "authorLastName", source = "user.lastName")
+    @Mapping(target = "image", expression = "java(\"/images/\" + ad.getImage())")
     AdResponseDto fromAdToAdResponseDto(Ad ad);
 
     @Mapping(target = "pk", source = "id")
     @Mapping(target = "author", source = "user.id")
+    @Mapping(target = "image", expression = "java(\"/images/\" + ad.getImage())")
     AdDto toAdDto(Ad ad);
+
+    @Mapping(target = "title", source = "adRequestDto.title")
+    @Mapping(target = "price", source = "adRequestDto.price")
+    @Mapping(target = "description", source = "adRequestDto.description")
+    Ad fromAdRequestDtoToAd(Ad ad, AdRequestDto adRequestDto);
 
     Ad fromAdRequestDtoToAd(AdRequestDto adRequestDto);
 

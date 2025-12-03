@@ -19,7 +19,8 @@ import java.util.Collection;
 public interface UserMapper {
 
     @Mappings({
-            @Mapping(target = "email", source = "username")
+            @Mapping(target = "email", source = "username"),
+            @Mapping(target = "image", expression = "java(\"/images/\" + entity.getImage())")
     })
     UserDto toUserDto(User entity);
 

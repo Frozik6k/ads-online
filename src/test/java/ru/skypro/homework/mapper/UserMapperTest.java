@@ -58,8 +58,18 @@ public class UserMapperTest {
 
     @Test
     public void givenUser_whenGetUserDto_thenGetUserDto() {
+        UserDto userDtoOutput = new UserDto();
+        userDtoOutput.setId(user.getId());
+        userDtoOutput.setEmail(user.getUsername());
+        userDtoOutput.setFirstName(user.getFirstName());
+        userDtoOutput.setLastName(user.getLastName());
+        userDtoOutput.setPhone(user.getPhone());
+        userDtoOutput.setRole(user.getRole());
+        userDtoOutput.setImage("/images/" + user.getImage());
+
+
         //then
-        assertEquals(userDto, userMapper.toUserDto(user));
+        assertEquals(userDtoOutput, userMapper.toUserDto(user));
     }
 
     @Test
