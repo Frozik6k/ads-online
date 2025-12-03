@@ -71,7 +71,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserAvatar(Long userId, MultipartFile avatarFile) {
 
-        User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
 
         if (user.getImage() == null) {
             user.setImage(UUID.randomUUID().toString());

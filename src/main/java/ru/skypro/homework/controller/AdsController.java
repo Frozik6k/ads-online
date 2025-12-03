@@ -50,7 +50,9 @@ public class AdsController {
     @Operation(summary = "Получения объявления по id")
     @GetMapping("/{id}")
     public AdResponseDto getAd(@PathVariable long id) {
-        return adService.getAd(id);
+        AdResponseDto adResponseDto = adService.getAd(id);
+        log.info(this.getClass() + "-> getAd -> getImage -> {}", adResponseDto.getImage());
+        return adResponseDto;
     }
 
     @Operation(summary = "Удаление объявления с id")

@@ -21,6 +21,7 @@ import ru.skypro.homework.service.ImageService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -89,11 +90,17 @@ public class AdServiceImpl implements AdService {
     @Override
     @PreAuthorize("hasRole('ADMIN') or @security.isAdOwner(#id, authentication.name)")
     public void updateAdImage(long id, MultipartFile file) {
+
         Ad ad = adRepository.findById(id)
                 .orElseThrow(() -> new AdNotFoundException(id));
 
-        String uuid = ad.getImage();
+        if (ad.getImage() == null) {
+            ad.setImage(UUID.randomUUID().toString());
+        }
 
-        imageService.updateImage(uuid, file);
+        imageService.updateImage(ad.getImage(), file);
+
+        adRepository.save(ad);
+
     }
 }
