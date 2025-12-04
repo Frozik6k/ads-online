@@ -39,6 +39,14 @@ public class WebSecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/v3/api-docs",       // JSON root
+                                "/v3/api-docs.yaml",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/docs/**"
+                        ).permitAll()
+                        .requestMatchers(
                                 "/auth/**",
                                 "/login",
                                 "/register",
@@ -46,12 +54,6 @@ public class WebSecurityConfig {
                                 "/images/**"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
-                        .requestMatchers(
-                                "/docs/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(handling -> handling.authenticationEntryPoint(entryPoint))
