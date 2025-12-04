@@ -2,6 +2,7 @@ package ru.skypro.homework.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,33 +33,34 @@ public class WebSecurityConfig {
 
     private final AuthEntryPoint entryPoint;
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs",       // JSON root
+            "/v3/api-docs.yaml",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/docs/**"
+    };
+
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers(
-                "/v3/api-docs",       // JSON root
-                "/v3/api-docs.yaml",
-                "/v3/api-docs/**",
-                "/swagger-ui/**",
-                "/swagger-ui.html",
-                "/docs/**"
-        );
+    @Order(0)
+    SecurityFilterChain swaggerSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http.securityMatcher(SWAGGER_WHITELIST)
+                .csrf(CsrfConfigurer::disable)
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .build();
     }
 
     @Bean
+    @Order(1)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(CsrfConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/v3/api-docs",       // JSON root
-                                "/v3/api-docs.yaml",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/docs/**"
-                        ).permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(
                                 "/auth/**",
                                 "/login",
