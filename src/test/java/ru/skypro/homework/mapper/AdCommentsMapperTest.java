@@ -29,8 +29,22 @@ public class AdCommentsMapperTest {
     private CommentsDto commentsDto;
     private Ad ad;
 
+    private User user;
+
     @BeforeEach
     public void setUp() {
+        user = new User(
+            1L,
+            "mail@mail.ru",
+            "11111111",
+            "Василий",
+            "Петров",
+            "+79991243555",
+            Role.USER,
+            "path",
+            null,
+            null);
+
         commentsDto = new CommentsDto();
         commentsDto.setCount(3);
         commentsDto.setResults(List.of(
@@ -40,11 +54,11 @@ public class AdCommentsMapperTest {
         ));
         ad = new Ad();
         ad.setId(1L);
-        ad.setUser(new User(3, "User", "11111111", "firstname", "lastname", "+7999999999", Role.USER, "path", null));
+        ad.setUser(new User(3, "User", "11111111", "firstname", "lastname", "+7999999999", Role.USER, "path", null, null));
         ad.setComments(List.of(
-                new Comment(4, LocalDateTime.of(2025, 5, 3, 5, 6), "Comment4", ad),
-                new Comment(5, LocalDateTime.of(2025, 5, 3, 5, 7), "Comment5", ad),
-                new Comment(6, LocalDateTime.of(2025, 5, 3, 5, 8), "Comment6", ad)
+                new Comment(4, LocalDateTime.of(2025, 5, 3, 5, 6), "Comment4", ad, user),
+                new Comment(5, LocalDateTime.of(2025, 5, 3, 5, 7), "Comment5", ad, user),
+                new Comment(6, LocalDateTime.of(2025, 5, 3, 5, 8), "Comment6", ad, user)
         ));
 
 
@@ -55,7 +69,7 @@ public class AdCommentsMapperTest {
     public void givenAdWithComments_whenCommentsDtoWithResults_thenSuccess() {
 
         //given
-        Comment comment = new Comment(4, LocalDateTime.of(2025, 5, 3, 5, 6), "Comment4", ad);
+        Comment comment = new Comment(4, LocalDateTime.of(2025, 5, 3, 5, 6), "Comment4", ad, user);
         CommentDto commentDto = new CommentDto(3, "/images/path", "User", LocalDateTime.of(2025, 5, 3, 5, 6), 4, "Comment4");
 
         //when

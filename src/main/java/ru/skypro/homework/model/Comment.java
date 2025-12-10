@@ -30,14 +30,21 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
     @Column
     private String text;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ad_id")
+    @JoinColumn(name = "ad_id", nullable = false)
     private Ad ad;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "users_id", nullable = false)
+    private User user;
 
     @Override
     public boolean equals(Object o) {

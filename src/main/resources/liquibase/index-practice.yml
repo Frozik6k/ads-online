@@ -11,3 +11,5 @@ databaseChangeLog:
       file: liquibase/scripts/v5__create_fk_comment_ad.sql
   - include:
       file: liquibase/scripts/v6__create_image_table.sql
+  - include:
+      file: liquibase/scripts/v7_create_fk_comment_users.sql

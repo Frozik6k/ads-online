@@ -85,7 +85,7 @@ public class UserControllerTest {
 
         User user = new User(1L, "user@mail.ru", "password",
                 "Ivan", "Ivanov", "+79990000000", Role.USER,
-                "path", null);
+                "path", null, null);
 
         UserDto userDto = new UserDto(1L, "user@mail.ru",
                 "Ivan", "Ivanov", "+79990000000", Role.USER,
@@ -112,7 +112,7 @@ public class UserControllerTest {
 
         User user = new User(1L, "user@mail.ru", "password",
                 "Ivan", "Ivanov", "+79990000000", Role.USER,
-                "path", null);
+                "path", null, null);
         NewPasswordRequest request = new NewPasswordRequest("password", "password");
 
         when(securityUser.getDomainUser())
@@ -140,7 +140,7 @@ public class UserControllerTest {
     void testUpdateUser() throws Exception {
         User user = new User(1L, "user@mail.ru", "password",
                 "Ivan", "Ivanov", "+79990000000", Role.USER,
-                "path", null);
+                "path", null, null);
         UpdateUserDto request = new UpdateUserDto("Ivan", "Ivanov", "+79990000000");
 
 
@@ -167,7 +167,7 @@ public class UserControllerTest {
                 "fake-image-content".getBytes());
         User user = new User(1L, "user@mail.ru", "password",
                 "Ivan", "Ivanov", "+79990000000", Role.USER,
-                "path", null);
+                "path", null, null);
 
         when(securityUser.getDomainUser()).thenReturn(user);
 

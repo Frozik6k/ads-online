@@ -12,6 +12,7 @@ import ru.skypro.homework.mapper.AdCommentsMapper;
 import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Comment;
+import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.CommentService;
@@ -35,10 +36,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @PreAuthorize("isAuthenticated()")
-    public CommentDto addComment(Long idAd, CommentCreateOrUpdateRequest request) {
+    public CommentDto addComment(Long idAd, CommentCreateOrUpdateRequest request, User user) {
         Ad ad = adRepository.findById(idAd)
                 .orElseThrow(() -> new AdNotFoundException(idAd));
-        Comment comment = commentMapper.toComment(request, ad);
+        Comment comment = commentMapper.toComment(request, ad, user);
         commentRepository.save(comment);
         return commentMapper.toCommentDto(comment);
     }
