@@ -39,7 +39,7 @@ public class AdMapperTest {
                 BigDecimal.valueOf(100),
                 "title",
                 null,
-                new User(5, "username", "password", "firstName", "lastName", "+79999999999", Role.USER, "pathUser", null)
+                new User(5, "username", "password", "firstName", "lastName", "+79999999999", Role.USER, "pathUser", null, null)
         );
         adDto = new AdDto(
                 5,

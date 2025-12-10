@@ -24,26 +24,40 @@ public class CommentMapperTest {
     private Comment comment;
     private Ad ad;
     private CommentDto commentDto;
+    private User user;
 
     @BeforeEach
     public void setUp() {
         ad = new Ad();
         ad.setId(1L);
-        ad.setUser(new User(7, "", "", "firstName", "", "", Role.USER, "path", null));
+        ad.setUser(new User(7, "", "", "firstName", "", "", Role.USER, "path", null, null));
+
+        user = new User(
+                1L,
+                "mail@mail.ru",
+                "11111111",
+                "Василий",
+                "Петров",
+                "+79991243555",
+                Role.USER,
+                "path",
+                null,
+                null);
 
         comment = new Comment();
         comment.setCreatedAt(LocalDateTime.of(2025, 10, 21, 5, 50));
         comment.setText("Comment");
         comment.setAd(ad);
         comment.setId(5);
+        comment.setUser(user);
 
         commentDto = new CommentDto();
         commentDto.setCreatedAt(LocalDateTime.of(2025, 10, 21, 5, 50));
         commentDto.setText("Comment");
         commentDto.setId(5);
         commentDto.setAuthorImage("/images/path");
-        commentDto.setAuthorFirstName("firstName");
-        commentDto.setIdAuthor(7);
+        commentDto.setAuthorFirstName("Василий");
+        commentDto.setIdAuthor(1L);
 
 
     }
@@ -55,8 +69,15 @@ public class CommentMapperTest {
         CommentCreateOrUpdateRequest commentCreateOrUpdateRequest = new CommentCreateOrUpdateRequest();
         commentCreateOrUpdateRequest.setText("Comment");
 
+        User user = new User(
+                2L,
+                "mail@mail.ru", "11111111",
+                "Вася", "Петров", "+79990022999",
+                Role.USER, "path",
+                null, null);
+
         //then
-        Comment commentOutput = commentMapper.toComment(commentCreateOrUpdateRequest, ad);
+        Comment commentOutput = commentMapper.toComment(commentCreateOrUpdateRequest, ad, user);
 
         assertEquals(commentOutput.getText(), comment.getText());
         assertEquals(commentOutput.getAd(), comment.getAd());

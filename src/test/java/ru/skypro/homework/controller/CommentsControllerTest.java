@@ -17,11 +17,13 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import ru.skypro.homework.config.GlobalExceptionHandler;
+import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.comments.CommentCreateOrUpdateRequest;
 import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.CommentsDto;
 import ru.skypro.homework.exception.AdNotFoundException;
 import ru.skypro.homework.exception.CommentNotFoundException;
+import ru.skypro.homework.model.User;
 import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.CommentService;
 
@@ -118,8 +120,15 @@ public class CommentsControllerTest {
                 LocalDateTime.now(),
                 10L, "Text comment"
         );
+        User user = new User(
+                2L,
+                "mail@mail.ru", "11111111",
+                "Вася", "Петров", "+79990022999",
+                Role.USER, "path",
+                null, null);
 
-        when(commentService.addComment(idAd, request)).thenReturn(commentDto);
+        when(commentService.addComment(idAd, request, user)).thenReturn(commentDto);
+        when(securityUser.getDomainUser()).thenReturn(user);
 
         mockMvc.perform(post("/ads/2/comments")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -130,8 +139,17 @@ public class CommentsControllerTest {
 
     @Test
     void testAddCommentThenAdNotFound() throws Exception {
+        User user = new User(
+                2L,
+                "mail@mail.ru", "11111111",
+                "Вася", "Петров", "+79990022999",
+                Role.USER, "path",
+                null, null);
+
         CommentCreateOrUpdateRequest request = new CommentCreateOrUpdateRequest("Text comment");
-        when(commentService.addComment(2L, request)).thenThrow(new AdNotFoundException(2L));
+        when(commentService.addComment(2L, request, user)).thenThrow(new AdNotFoundException(2L));
+        when(securityUser.getDomainUser()).thenReturn(user);
+
         mockMvc.perform(post("/ads/2/comments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))

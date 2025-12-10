@@ -46,6 +46,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Ad> Ads;
 
+    @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL)
+    private List<Comment> Comments;
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

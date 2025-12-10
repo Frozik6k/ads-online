@@ -5,10 +5,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.comments.CommentCreateOrUpdateRequest;
 import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.CommentsDto;
+import ru.skypro.homework.security.SecurityUser;
 import ru.skypro.homework.service.CommentService;
 
 @RestController
@@ -27,8 +29,8 @@ public class CommentsController {
 
     @PostMapping("/{id}/comments")
     @Operation(summary = "Добавить комментарий к объявлению")
-    public CommentDto addComment(@PathVariable("id") Long idAd, @RequestBody CommentCreateOrUpdateRequest request) {
-        return commentService.addComment(idAd, request);
+    public CommentDto addComment(@PathVariable("id") Long idAd, @RequestBody CommentCreateOrUpdateRequest request, @AuthenticationPrincipal SecurityUser user) {
+        return commentService.addComment(idAd, request, user.getDomainUser());
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")
